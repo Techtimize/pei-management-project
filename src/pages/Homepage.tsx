@@ -1,7 +1,6 @@
 import React from 'react'
 import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
-
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
 
 import {
@@ -20,7 +19,6 @@ export function DropdownMenuCheckboxes() {
   const [portfolio, setPortfolio] = React.useState<Checked>(false)
   const [local, setLocal] = React.useState<Checked>(false)
   const [subsidiary, setSubsidiary] = React.useState<Checked>(false)
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
