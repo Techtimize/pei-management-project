@@ -1,11 +1,11 @@
 import React from 'react'
 import { FiBell, FiSettings, FiUser, FiMenu } from 'react-icons/fi'
 import type { ITopBarProps } from '../types'
-import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
+import { useAppSelector } from '@/hooks/storeHooks'
 
 const TopBar = ({ toggleSidebar }: ITopBarProps) => {
   const auth = useAppSelector((state) => state.auth)
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
   // function handleModuleChange(moduleType: ModuleTypeEnum) {
   //   dispatch(setModuleType(moduleType))
