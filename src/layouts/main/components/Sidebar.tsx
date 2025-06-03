@@ -159,6 +159,7 @@ const Sidebar = () => {
       <ModuleSelector
         handleModuleChange={handleModuleChange}
         moduleType={moduleType}
+        dark={false}
       />
     </div>
   )
