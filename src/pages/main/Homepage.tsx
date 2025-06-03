@@ -33,9 +33,9 @@ function Homepage() {
   return (
     <div className='flex h-[100%] justify-center items-center p-4 md:px-10 bg-white'>
       <div className='relative w-full flex flex-col md:flex-row gap-2'>
-        <div className='relative lg:flex-2 md:flex-1 h-[40px]'>
+        <div className='relative lg:flex-2 md:flex-1 h-[38px]'>
           <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4' />
-          <Input className='w-full pl-10 h-[40px]' />
+          <Input className='w-full pl-10 h-[38px]' />
         </div>
 
         <div className='w-full flex-1'>
@@ -58,7 +58,7 @@ function Homepage() {
 
         <input
           type='button'
-          className='h-[40px] w-full md:w-auto bg-secondary-1 hover:bg-secondary-1/90 font-semibold py-2 px-4 border border-gray-400 rounded shadow'
+          className='h-[38px] w-full md:w-auto bg-secondary-1 hover:bg-secondary-1/90 font-semibold py-2 px-4 border border-gray-400 rounded shadow'
           value='Search'
         />
       </div>
