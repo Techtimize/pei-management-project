@@ -1,15 +1,10 @@
 import React from 'react'
 import { FiBell, FiSettings, FiUser, FiMenu } from 'react-icons/fi'
 import type { ITopBarProps } from '../types'
-import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
+import { useAppSelector } from '@/hooks/storeHooks'
 
 const TopBar = ({ toggleSidebar }: ITopBarProps) => {
   const auth = useAppSelector((state) => state.auth)
-  const dispatch = useAppDispatch()
-
-  // function handleModuleChange(moduleType: ModuleTypeEnum) {
-  //   dispatch(setModuleType(moduleType))
-  // }
 
   return (
     <div className='w-full flex items-center justify-between px-6 py-4 shadow-sm bg-primary-3'>

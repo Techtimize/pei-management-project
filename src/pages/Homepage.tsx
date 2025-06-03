@@ -1,62 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
+import Select, { CSSObjectWithLabel, OnChangeValue } from 'react-select'
+import { useAppSelector } from '@/hooks/storeHooks'
+import { ModuleTypeEnum } from '@/store/reducers/moduleSlice'
+import { companies } from '@/config/constants'
 
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
-
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-
-type Checked = DropdownMenuCheckboxItemProps['checked']
-
-export function DropdownMenuCheckboxes() {
-  const [PEI, setPEI] = React.useState<Checked>(true)
-  const [portfolio, setPortfolio] = React.useState<Checked>(false)
-  const [local, setLocal] = React.useState<Checked>(false)
-  const [subsidiary, setSubsidiary] = React.useState<Checked>(false)
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <input
-          value='Select type'
-          type='button'
-          className='text-white bg-primary-1 hover:bg-primary-1/90 font-semibold py-2 px-4 border border-gray-400 rounded shadow'
-        />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-56'>
-        <DropdownMenuLabel>Companies</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuCheckboxItem checked={PEI} onCheckedChange={setPEI}>
-          PEI
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem
-          checked={portfolio}
-          onCheckedChange={setPortfolio}
-        >
-          Portfolio
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem
-          checked={subsidiary}
-          onCheckedChange={setSubsidiary}
-        >
-          Subsidiary
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem checked={local} onCheckedChange={setLocal}>
-          Local
-        </DropdownMenuCheckboxItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+const selectStyle = {
+  control: (styles: CSSObjectWithLabel) => ({
+    ...styles,
+    height: '100%'
+  }),
+  option: (styles: CSSObjectWithLabel) => ({
+    ...styles,
+    textAlign: 'start' as CSSObjectWithLabel['textAlign']
+  })
 }
 
 function Homepage() {
+  const moduleType = useAppSelector((state) => state.module.moduleType)
+
+  const [value, setValue] = useState<typeof companies>([companies[0]])
+
+  const onChange = (newValue: OnChangeValue<(typeof companies)[0], true>) => {
+    setValue(newValue as typeof companies)
+  }
+
+  useEffect(() => {
+    if (moduleType === ModuleTypeEnum.USPE)
+      setValue(value.filter((company) => company.isUS))
+  }, [moduleType])
+
   return (
     <div className='flex h-[100%] justify-center items-center px-10'>
       <div className='relative w-full flex gap-2'>
@@ -65,7 +39,21 @@ function Homepage() {
           <Input className='w-full pl-10 h-[100%]' />
         </div>
 
-        <DropdownMenuCheckboxes />
+        <Select
+          value={value}
+          isMulti
+          name='companies'
+          options={companies.filter((company) =>
+            (moduleType === ModuleTypeEnum.USPE && company.isUS) ||
+            moduleType === ModuleTypeEnum.GPE
+              ? true
+              : false
+          )}
+          className='basic-multi-select'
+          classNamePrefix='select'
+          styles={selectStyle}
+          onChange={onChange}
+        />
 
         <input
           type='button'
