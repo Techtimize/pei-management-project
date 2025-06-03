@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
 import { ModuleTypeEnum, setModuleType } from '@/store/reducers/moduleSlice'
+import ModuleSelector from '@/components/moduleSelector/ModuleSelector'
 
 const Sidebar = () => {
   const moduleType = useAppSelector((state) => state.module.moduleType)
@@ -155,35 +156,10 @@ const Sidebar = () => {
         </ul>
       </nav>
 
-      <div className='px-6 py-4 overflow-hidden'>
-        <div className='flex gap-4 overflow-hidden'>
-          <label className='flex items-center text-lg'>
-            <input
-              type='radio'
-              value={ModuleTypeEnum.GPE}
-              checked={moduleType === ModuleTypeEnum.GPE}
-              onChange={(e) =>
-                handleModuleChange(e.target.value as unknown as ModuleTypeEnum)
-              }
-              className='mr-2 appearance-none w-4 h-4 border-2 border-white rounded-full checked:bg-secondary-1 checked:bg-clip-content checked:p-[2px]'
-            />
-            GPE
-          </label>
-
-          <label className='flex items-center text-lg'>
-            <input
-              type='radio'
-              value={ModuleTypeEnum.USPE}
-              checked={moduleType === ModuleTypeEnum.USPE}
-              onChange={(e) =>
-                handleModuleChange(e.target.value as unknown as ModuleTypeEnum)
-              }
-              className='mr-2 appearance-none w-4 h-4 border-2 border-white rounded-full checked:bg-secondary-1 checked:bg-clip-content checked:p-[2px]'
-            />
-            USPE
-          </label>
-        </div>
-      </div>
+      <ModuleSelector
+        handleModuleChange={handleModuleChange}
+        moduleType={moduleType}
+      />
     </div>
   )
 }

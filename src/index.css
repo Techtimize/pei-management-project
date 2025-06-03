@@ -25,11 +25,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: #f4f4f4;
   --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
+  --card: #f4f4f4;
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
+  --popover: #f4f4f4;
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.2601 0.1678 264.91);
   --primary-foreground: oklch(0.985 0 0);
@@ -82,13 +82,13 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--color-secondary-1);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 
 button:hover {
-  border-color: #646cff;
+  opacity: 0.8;
 }
 
 button:focus,
