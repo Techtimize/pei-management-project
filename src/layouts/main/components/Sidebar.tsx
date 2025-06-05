@@ -22,21 +22,24 @@ const Sidebar = ({ showSidebar = true }: ISidebarProps) => {
     <div className='relative top-0 left-0 flex flex-col justify-center w-[100%] h-screen bg-primary-3 text-white'>
       <nav>
         <ul className='space-y-2'>
-          {mainRoutes.map((route) => (
-            <li key={route.path}>
-              <Link
-                to={route.path}
-                className={`flex items-center px-6 py-3 text-gray-300 hover:bg-primary-1 transition-colors ${
-                  location.pathname === route.path && showSidebar
-                    ? 'bg-primary-1'
-                    : ''
-                }`}
-              >
-                {route.svg}
-                <span className='overflow-hidden'>{route.label}</span>
-              </Link>
-            </li>
-          ))}
+          {mainRoutes.map((route) =>
+            (moduleType === ModuleTypeEnum.USPE && route.isUs) ||
+            moduleType === ModuleTypeEnum.GPE ? (
+              <li key={route.path}>
+                <Link
+                  to={route.path}
+                  className={`flex items-center px-6 py-3 text-gray-300 hover:bg-primary-1 transition-colors ${
+                    location.pathname === route.path && showSidebar
+                      ? 'bg-primary-1'
+                      : ''
+                  }`}
+                >
+                  {route.svg}
+                  <span className='overflow-hidden'>{route.label}</span>
+                </Link>
+              </li>
+            ) : null
+          )}
         </ul>
       </nav>
 

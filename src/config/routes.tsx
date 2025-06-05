@@ -1,14 +1,15 @@
 import Homepage from '@/pages/main/Homepage'
-import LocalListingPage from '@/pages/main/LocalListingPage'
+import LocalListingPage from '@/pages/main/LocalListing/LocalListingPage'
 import PEIListingPage from '@/pages/main/PEIListing/PEIListingPage'
-import PortfolioListingPage from '@/pages/main/PortfolioListingPage'
-import SubsidiaryListingPage from '@/pages/main/SubsidiaryListingPage'
+import PortfolioListingPage from '@/pages/main/PortfolioListing/PortfolioListingPage'
+import SubsidiaryListingPage from '@/pages/main/SubsidiaryListing/SubsidiaryListingPage'
 
 export const mainRoutes = [
   {
     path: '/',
     element: <Homepage />,
     label: 'Home',
+    isUs: true,
     svg: (
       <svg
         className='w-5 h-5 mr-3'
@@ -29,6 +30,7 @@ export const mainRoutes = [
     path: '/pei-companies',
     element: <PEIListingPage />,
     label: 'PEIs',
+    isUs: true,
     svg: (
       <svg
         className='w-5 h-5 mr-3'
@@ -55,6 +57,7 @@ export const mainRoutes = [
     path: '/portfolio-companies',
     element: <PortfolioListingPage />,
     label: 'Portfolios',
+    isUs: true,
     svg: (
       <svg
         className='w-5 h-5 mr-3'
@@ -75,6 +78,7 @@ export const mainRoutes = [
     path: '/subsidiary-companies',
     element: <SubsidiaryListingPage />,
     label: 'Subsidiaries',
+    isUs: false,
     svg: (
       <svg
         className='w-5 h-5 mr-3'
@@ -95,6 +99,7 @@ export const mainRoutes = [
     path: '/local-companies',
     element: <LocalListingPage />,
     label: 'Locals',
+    isUs: false,
     svg: (
       <svg
         className='w-5 h-5 mr-3'
