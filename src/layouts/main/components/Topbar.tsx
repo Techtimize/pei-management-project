@@ -8,7 +8,11 @@ const TopBar = ({ toggleSidebar, layout }: ITopBarProps) => {
   const auth = useAppSelector((state) => state.auth)
 
   return (
-    <div className='w-full flex flex-col md:flex-row items-center justify-between px-4 md:px-6 py-4 shadow-sm bg-primary-3'>
+    <div
+      className={`${
+        layout === 'desktop' ? 'h-1/8' : !showMobileMenu ? 'h-1/10' : 'h-1/4'
+      } w-full flex flex-col md:flex-row items-center justify-between px-4 md:px-6 py-4 shadow-sm bg-primary-3`}
+    >
       <div className='w-full md:w-52 flex items-center justify-between md:justify-start gap-4 z-50'>
         <div className='flex items-center gap-4'>
           <FiMenu

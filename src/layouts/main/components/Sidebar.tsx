@@ -15,7 +15,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className='flex flex-col justify-center w-[100%] h-screen bg-primary-3 text-white'>
+    <div className='relative top-0 left-0 flex flex-col justify-center w-[100%] h-screen bg-primary-3 text-white'>
       <nav>
         <ul className='space-y-2'>
           {mainRoutes.map((route) => (

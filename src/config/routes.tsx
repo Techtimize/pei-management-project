@@ -1,6 +1,6 @@
 import Homepage from '@/pages/main/Homepage'
 import LocalListingPage from '@/pages/main/LocalListingPage'
-import PEIListingPage from '@/pages/main/PEIListingPage'
+import PEIListingPage from '@/pages/main/PEIListing/PEIListingPage'
 import PortfolioListingPage from '@/pages/main/PortfolioListingPage'
 import SubsidiaryListingPage from '@/pages/main/SubsidiaryListingPage'
 
