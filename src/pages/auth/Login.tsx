@@ -1,24 +1,44 @@
 import React from 'react'
-import { Formik } from 'formik'
+import { Formik, FormikHelpers } from 'formik'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { object, string } from 'yup'
 import ModuleSelector from '@/components/moduleSelector/ModuleSelector'
 import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
 import { ModuleTypeEnum, setModuleType } from '@/store/reducers/moduleSlice'
+import { login } from '@/store/reducers/authSlice'
+import { useNavigate } from 'react-router'
+
+interface ILoginFormFields {
+  email: string
+  password: string
+}
 
 function Login() {
   const moduleType = useAppSelector((state) => state.module.moduleType)
   const dispatch = useAppDispatch()
-
-  function handleModuleChange(moduleType: ModuleTypeEnum) {
-    dispatch(setModuleType(moduleType))
-  }
+  const navigate = useNavigate()
 
   const loginSchema = object().shape({
     email: string().required().email(),
     password: string().required().min(8)
   })
+
+  function handleModuleChange(moduleType: ModuleTypeEnum) {
+    dispatch(setModuleType(moduleType))
+  }
+
+  function handleSubmit(
+    values: ILoginFormFields,
+    helpers: FormikHelpers<ILoginFormFields>
+  ) {
+    console.log('🚀 ~ Login ~ values:', values)
+
+    helpers.setSubmitting(false)
+    dispatch(login())
+
+    navigate('/', { replace: true })
+  }
 
   return (
     <div className='min-w-screen min-h-screen flex items-center justify-center bg-tertiary-1'>
@@ -29,12 +49,7 @@ function Login() {
         <Formik
           initialValues={{ email: '', password: '' }}
           validationSchema={loginSchema}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2))
-              setSubmitting(false)
-            }, 400)
-          }}
+          onSubmit={handleSubmit}
         >
           {({
             values,

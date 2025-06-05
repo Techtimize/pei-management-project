@@ -20,8 +20,8 @@ export const authSlice = createSlice({
   name: 'module',
   initialState: initialState,
   reducers: {
-    login: (state, action: PayloadAction<boolean>) => {
-      state.isLoggedIn = action.payload
+    login: (state) => {
+      state.isLoggedIn = true
     },
     setProfile: (
       state,
@@ -36,10 +36,13 @@ export const authSlice = createSlice({
       action: PayloadAction<Pick<IAuthSlice, 'preferences'>>
     ) => {
       state.preferences = action.payload.preferences
+    },
+    logout: (state) => {
+      state.isLoggedIn = false
     }
   }
 })
 
-export const { login, setProfile, setPreferences } = authSlice.actions
+export const { login, setProfile, setPreferences, logout } = authSlice.actions
 export const selectModule = (state: RootState) => state.module.moduleType
 export default authSlice.reducer

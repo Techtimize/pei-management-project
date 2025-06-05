@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Outlet } from 'react-router'
+import { Outlet, useNavigate } from 'react-router'
 import TopBar from './components/Topbar'
 import Sidebar from './components/Sidebar'
+import { useAppSelector } from '@/hooks/storeHooks'
 
 function MainLayout() {
   const [showSidebar, setShowSidebar] = useState<boolean>(true)
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth)
+  const auth = useAppSelector((state) => state.auth.isLoggedIn)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!auth) navigate('/auth/login', { replace: true })
+  }, [auth])
 
   function toggleSidebar() {
     setShowSidebar(!showSidebar)
