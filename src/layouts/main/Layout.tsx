@@ -42,9 +42,9 @@ function MainLayout() {
       >
         <div
           className={`flex flex-col justify-center items-center transition-all duration-300 ease-in-out ${
-            layout === 'desktop' ? '' : 'left-0 top-0 h-screen z-30'
+            layout === 'desktop' ? '' : 'fixed left-0 top-0 h-screen z-30'
           } ${
-            showSidebar ? (layout === 'desktop' ? 'w-1/5' : 'w-1/3') : 'w-0'
+            showSidebar ? (layout === 'desktop' ? 'w-1/5' : 'w-2/5') : 'w-0'
           }`}
           id='side-bar'
         >
@@ -52,7 +52,7 @@ function MainLayout() {
         </div>
         <div
           className={`flex flex-col h-[100vh] transition-all duration-300 ease-in-out ${
-            showSidebar && layout === 'desktop' ? 'w-4/5' : 'w-full'
+            showSidebar && layout === 'desktop' ? 'w-4/5' : 'w-screen'
           }`}
           id='main-layout'
         >
