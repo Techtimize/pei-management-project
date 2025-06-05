@@ -16,6 +16,8 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+// import { Button } from '@/components/ui/button'
+import { DataTablePagination } from './data-table-pagination'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -35,7 +37,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className='rounded-md border overflow-y-auto'>
+      <div className='rounded-md border overflow-auto'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -85,8 +87,26 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className='flex items-center justify-end py-4 space-x-4 underline mx-4'>
-        <p
+      <div className='flex items-center justify-end py-4 space-x-4 mx-4'>
+        <div className='flex items-center justify-end space-x-2 py-4'>
+          {/* <Button
+            variant='outline'
+            size='sm'
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button> */}
+        </div>
+        {/* <p
           className={
             !table.getCanPreviousPage()
               ? 'text-gray-400 cursor-not-allowed'
@@ -105,7 +125,8 @@ export function DataTable<TData, TValue>({
           onClick={() => table.getCanNextPage() && table.nextPage()}
         >
           Next
-        </p>
+        </p> */}
+        <DataTablePagination table={table} showSelectedRowsText={false} />
       </div>
     </div>
   )

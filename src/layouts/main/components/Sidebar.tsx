@@ -5,7 +5,11 @@ import { ModuleTypeEnum, setModuleType } from '@/store/reducers/moduleSlice'
 import ModuleSelector from '@/components/moduleSelector/ModuleSelector'
 import { mainRoutes } from '@/config/routes'
 
-const Sidebar = () => {
+interface ISidebarProps {
+  showSidebar?: boolean
+}
+
+const Sidebar = ({ showSidebar = true }: ISidebarProps) => {
   const moduleType = useAppSelector((state) => state.module.moduleType)
   const dispatch = useAppDispatch()
   const location = useLocation()
@@ -23,7 +27,9 @@ const Sidebar = () => {
               <Link
                 to={route.path}
                 className={`flex items-center px-6 py-3 text-gray-300 hover:bg-primary-1 transition-colors ${
-                  location.pathname === route.path ? 'bg-primary-1' : ''
+                  location.pathname === route.path && showSidebar
+                    ? 'bg-primary-1'
+                    : ''
                 }`}
               >
                 {route.svg}

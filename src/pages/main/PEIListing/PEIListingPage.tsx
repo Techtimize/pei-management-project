@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { columns, ICompany } from './columns'
-import { DataTable } from './data-table'
+import { DataTable } from '../../../components/dataTable/data-table'
 
 function PEIListingPage() {
   const [data, setData] = useState<ICompany[]>([])
@@ -170,11 +170,6 @@ function PEIListingPage() {
       <DataTable columns={columns} data={data} />
     </div>
   )
-  // return (
-  //   <div className='flex h-[100%] justify-center items-center p-4 md:px-10 bg-white'>
-  //     PEI Listing Page
-  //   </div>
-  // )
 }
 
 export default PEIListingPage

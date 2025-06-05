@@ -1,6 +1,5 @@
-'use client'
-
-import { CellContext, ColumnDef } from '@tanstack/react-table'
+import { ColumnDef } from '@tanstack/react-table'
+import { DataTableCommon } from '@/components/dataTable/common'
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -15,62 +14,51 @@ export interface ICompany {
   color: string
 }
 
-function indexCell(row: CellContext<ICompany, unknown>) {
-  return <div style={{ textAlign: 'left' }}>{row.row.index + 1}</div>
-}
-
-function cell(row: CellContext<ICompany, unknown>) {
-  return <div style={{ textAlign: 'left' }}>{row.getValue() as string}</div>
-}
-
-function centerCell(row: CellContext<ICompany, unknown>) {
-  return <div style={{ textAlign: 'center' }}>{row.getValue() as string}</div>
-}
-
-function centerHeader(headerName: string) {
-  return <div style={{ textAlign: 'center' }}>{headerName}</div>
-}
+const dataTableCommon = new DataTableCommon<ICompany>()
 
 export const columns: ColumnDef<ICompany>[] = [
   {
-    // accessorKey: 'id',
     header: '#',
-    cell: indexCell
-    // accessorFn:row=>row.
+    cell: dataTableCommon.indexCell
   },
   {
     accessorKey: 'company',
-    header: 'Company',
-    cell
+    header: ({ column }) =>
+      dataTableCommon.styledHeader(
+        'Company',
+        column,
+        '!bg-primary-1 !text-white'
+      ),
+    cell: dataTableCommon.leftCell
   },
   {
     accessorKey: 'type',
     header: 'Type',
-    cell
+    cell: dataTableCommon.leftCell
   },
   {
     accessorKey: 'vendor',
     header: 'Vendor',
-    cell
+    cell: dataTableCommon.leftCell
   },
   {
     accessorKey: 'inStock',
-    header: () => centerHeader('In Stock'),
-    cell: centerCell
+    header: () => dataTableCommon.centerHeader('In Stock'),
+    cell: dataTableCommon.centerCell
   },
   {
     accessorKey: 'unitCost',
-    header: () => centerHeader('Unit Cost'),
-    cell: centerCell
+    header: () => dataTableCommon.centerHeader('Unit Cost'),
+    cell: dataTableCommon.centerCell
   },
   {
     accessorKey: 'material',
     header: 'Material',
-    cell
+    cell: dataTableCommon.leftCell
   },
   {
     accessorKey: 'color',
     header: 'Color',
-    cell
+    cell: dataTableCommon.leftCell
   }
 ]

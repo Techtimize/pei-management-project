@@ -48,7 +48,7 @@ function MainLayout() {
           }`}
           id='side-bar'
         >
-          <Sidebar />
+          <Sidebar showSidebar={showSidebar} />
         </div>
         <div
           className={`flex flex-col h-[100vh] transition-all duration-300 ease-in-out ${
