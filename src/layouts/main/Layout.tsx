@@ -55,7 +55,7 @@ function MainLayout() {
           }`}
           id='side-bar'
         >
-          <Sidebar showSidebar={showSidebar} />
+          <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         </div>
         <div
           className={`flex flex-col h-[100vh] transition-all duration-300 ease-in-out ${
@@ -64,7 +64,7 @@ function MainLayout() {
           id='main-layout'
         >
           <TopBar toggleSidebar={toggleSidebar} layout={layout} />
-          <div className='h-7/8 w-full overflow-y-auto'>
+          <div className='h-7/8 w-full overflow-y-auto bg-tertiary-2'>
             <Outlet />
           </div>
         </div>

@@ -24,41 +24,53 @@ export const columns: ColumnDef<ICompany>[] = [
   {
     accessorKey: 'company',
     header: ({ column }) =>
-      dataTableCommon.styledHeader(
-        'Company',
-        column,
-        '!bg-primary-1 !text-white'
-      ),
+      dataTableCommon.styledHeader('Company', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
   {
     accessorKey: 'type',
-    header: 'Type',
+    header: ({ column }) =>
+      dataTableCommon.styledHeader('Type', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
   {
     accessorKey: 'vendor',
-    header: 'Vendor',
+    header: ({ column }) =>
+      dataTableCommon.styledHeader('Vendor', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
   {
     accessorKey: 'inStock',
-    header: () => dataTableCommon.centerHeader('In Stock'),
+    header: ({ column }) =>
+      dataTableCommon.styledHeader(
+        'In Stock',
+        column,
+        '!bg-transparent',
+        'd-flex justify-center'
+      ),
     cell: dataTableCommon.centerCell
   },
   {
     accessorKey: 'unitCost',
-    header: () => dataTableCommon.centerHeader('Unit Cost'),
+    header: ({ column }) =>
+      dataTableCommon.styledHeader(
+        'Unit Cost',
+        column,
+        '!bg-transparent !text-center',
+        'd-flex justify-center'
+      ),
     cell: dataTableCommon.centerCell
   },
   {
     accessorKey: 'material',
-    header: 'Material',
+    header: ({ column }) =>
+      dataTableCommon.styledHeader('Material', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
   {
     accessorKey: 'color',
-    header: 'Color',
+    header: ({ column }) =>
+      dataTableCommon.styledHeader('Color', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   }
 ]

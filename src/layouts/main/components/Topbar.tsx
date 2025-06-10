@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
 import { logout } from '@/store/reducers/authSlice'
 
 const TopBar = ({ toggleSidebar, layout }: ITopBarProps) => {
-  const [showMobileMenu, setShowMobileMenu] = useState(layout === 'mobile')
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
   const [showProfileMenu, setShowProfileMenu] = useState(false)
   const auth = useAppSelector((state) => state.auth)
@@ -47,7 +47,7 @@ const TopBar = ({ toggleSidebar, layout }: ITopBarProps) => {
       <div className='w-full md:w-52 flex items-center justify-between md:justify-start gap-4 z-50'>
         <div className='flex items-center gap-4'>
           <FiMenu
-            className='w-6 h-6 text-gray-300 cursor-pointer hover:text-gray-800'
+            className='w-6 h-6 text-gray-300 cursor-pointer hover:text-white'
             onClick={toggleSidebar}
           />
           <h1 className='text-xl font-bold text-gray-300'>Logo</h1>

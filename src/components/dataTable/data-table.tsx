@@ -37,7 +37,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className='rounded-md border overflow-auto'>
+      <div className='rounded-md border overflow-auto bg-white px-2'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -88,8 +88,8 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <div className='flex items-center justify-end py-4 space-x-4 mx-4'>
-        <div className='flex items-center justify-end space-x-2 py-4'>
-          {/* <Button
+        {/* <div className='flex items-center justify-end space-x-2 py-4'> */}
+        {/* <Button
             variant='outline'
             size='sm'
             onClick={() => table.previousPage()}
@@ -105,7 +105,7 @@ export function DataTable<TData, TValue>({
           >
             Next
           </Button> */}
-        </div>
+        {/* </div> */}
         {/* <p
           className={
             !table.getCanPreviousPage()

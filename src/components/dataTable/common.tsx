@@ -22,15 +22,18 @@ export class DataTableCommon<T> {
     headerName: string,
     column: Column<T, unknown>,
     buttonClass?: string,
-    className?: string
+    className?: string,
+    outerClassName?: string
   ) {
     return (
-      <DataTableColumnHeader
-        buttonClass={buttonClass}
-        column={column}
-        title={headerName}
-        className={className}
-      />
+      <div className={outerClassName}>
+        <DataTableColumnHeader
+          buttonClass={buttonClass}
+          column={column}
+          title={headerName}
+          className={className}
+        />
+      </div>
     )
   }
 }

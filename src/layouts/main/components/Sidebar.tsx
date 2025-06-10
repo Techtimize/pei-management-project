@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SetStateAction } from 'react'
 import { Link, useLocation } from 'react-router'
 import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
 import { ModuleTypeEnum, setModuleType } from '@/store/reducers/moduleSlice'
@@ -7,9 +7,10 @@ import { mainRoutes } from '@/config/routes'
 
 interface ISidebarProps {
   showSidebar?: boolean
+  setShowSidebar: React.Dispatch<SetStateAction<boolean>>
 }
 
-const Sidebar = ({ showSidebar = true }: ISidebarProps) => {
+const Sidebar = ({ showSidebar = true, setShowSidebar }: ISidebarProps) => {
   const moduleType = useAppSelector((state) => state.module.moduleType)
   const dispatch = useAppDispatch()
   const location = useLocation()
@@ -28,6 +29,7 @@ const Sidebar = ({ showSidebar = true }: ISidebarProps) => {
               <li key={route.path}>
                 <Link
                   to={route.path}
+                  onClick={() => setShowSidebar(!showSidebar)}
                   className={`flex items-center px-6 py-3 text-gray-300 hover:bg-primary-1 transition-colors ${
                     location.pathname === route.path && showSidebar
                       ? 'bg-primary-1'
