@@ -8,9 +8,14 @@ import { mainRoutes } from '@/config/routes'
 interface ISidebarProps {
   showSidebar?: boolean
   setShowSidebar: React.Dispatch<SetStateAction<boolean>>
+  layout: 'mobile' | 'desktop'
 }
 
-const Sidebar = ({ showSidebar = true, setShowSidebar }: ISidebarProps) => {
+const Sidebar = ({
+  showSidebar = true,
+  setShowSidebar,
+  layout
+}: ISidebarProps) => {
   const moduleType = useAppSelector((state) => state.module.moduleType)
   const dispatch = useAppDispatch()
   const location = useLocation()
@@ -29,7 +34,11 @@ const Sidebar = ({ showSidebar = true, setShowSidebar }: ISidebarProps) => {
               <li key={route.path}>
                 <Link
                   to={route.path}
-                  onClick={() => setShowSidebar(!showSidebar)}
+                  onClick={() =>
+                    layout &&
+                    layout === 'mobile' &&
+                    setShowSidebar(!showSidebar)
+                  }
                   className={`flex items-center px-6 py-3 text-gray-300 hover:bg-primary-1 transition-colors ${
                     location.pathname === route.path && showSidebar
                       ? 'bg-primary-1'

@@ -49,7 +49,7 @@ function Login() {
         <Formik
           initialValues={{
             email: 'furqan@techtimize.com',
-            password: '11223344'
+            password: '189391983109283'
           }}
           validationSchema={loginSchema}
           onSubmit={handleSubmit}

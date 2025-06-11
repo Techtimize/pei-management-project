@@ -1,8 +1,8 @@
 import Homepage from '@/pages/main/Homepage'
-import LocalListingPage from '@/pages/main/LocalListing/LocalListingPage'
-import PEIListingPage from '@/pages/main/PEIListing/PEIListingPage'
-import PortfolioListingPage from '@/pages/main/PortfolioListing/PortfolioListingPage'
-import SubsidiaryListingPage from '@/pages/main/SubsidiaryListing/SubsidiaryListingPage'
+import LocalListingPage from '@/pages/main/LocalListing'
+import PEIListingPage from '@/pages/main/PEIListing'
+import PortfolioListingPage from '@/pages/main/PortfolioListing'
+import SubsidiaryListingPage from '@/pages/main/SubsidiaryListing'
 
 export const mainRoutes = [
   {
