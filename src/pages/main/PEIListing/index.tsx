@@ -38,27 +38,27 @@ function PEIListingPage() {
   const formik = useFormik<IPeiFields>({
     initialValues: {
       pb_id: draftPEI?.pb_id ?? '',
-      swift_client_number: state.draft
+      swift_client_number: state?.draft
         ? draftPEI?.swift_client_number ?? ''
         : '',
-      swift_client_name: state.draft ? draftPEI?.swift_client_name ?? '' : '',
-      gmdm_id: state.draft ? draftPEI?.gmdm_id ?? '' : '',
-      dgmf_id: state.draft ? draftPEI?.dgmf_id ?? '' : '',
-      duns_number: state.draft ? draftPEI?.duns_number ?? '' : '',
-      view_type: state.draft ? draftPEI?.view_type ?? '' : '',
-      tableau_inclusion_status: state.draft
+      swift_client_name: state?.draft ? draftPEI?.swift_client_name ?? '' : '',
+      gmdm_id: state?.draft ? draftPEI?.gmdm_id ?? '' : '',
+      dgmf_id: state?.draft ? draftPEI?.dgmf_id ?? '' : '',
+      duns_number: state?.draft ? draftPEI?.duns_number ?? '' : '',
+      view_type: state?.draft ? draftPEI?.view_type ?? '' : '',
+      tableau_inclusion_status: state?.draft
         ? draftPEI?.tableau_inclusion_status ?? ''
         : '',
-      requested_by_team: state.draft ? draftPEI?.requested_by_team ?? '' : '',
-      contact_email: state.draft ? draftPEI?.contact_email ?? '' : '',
-      priority_for_feedback: state.draft
+      requested_by_team: state?.draft ? draftPEI?.requested_by_team ?? '' : '',
+      contact_email: state?.draft ? draftPEI?.contact_email ?? '' : '',
+      priority_for_feedback: state?.draft
         ? draftPEI?.priority_for_feedback ?? ''
         : '',
-      fy_period_added: state.draft ? draftPEI?.fy_period_added ?? '' : '',
-      reporting_team: state.draft ? draftPEI?.reporting_team ?? '' : '',
-      gmdm_legal_name: state.draft ? draftPEI?.gmdm_legal_name ?? '' : '',
-      pb_name: state.draft ? draftPEI?.pb_name ?? '' : '',
-      sources: state.draft ? draftPEI?.sources ?? '' : ''
+      fy_period_added: state?.draft ? draftPEI?.fy_period_added ?? '' : '',
+      reporting_team: state?.draft ? draftPEI?.reporting_team ?? '' : '',
+      gmdm_legal_name: state?.draft ? draftPEI?.gmdm_legal_name ?? '' : '',
+      pb_name: state?.draft ? draftPEI?.pb_name ?? '' : '',
+      sources: state?.draft ? draftPEI?.sources ?? '' : ''
     },
     onSubmit: async (values) => {
       console.log('Submitting')
