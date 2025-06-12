@@ -26,6 +26,7 @@ interface IModalProps {
   submitText?: string
   showDraft?: boolean
   draftText?: string
+  onDraft: (values: IPeiFields) => void
 }
 
 export function FormModal({
@@ -38,7 +39,8 @@ export function FormModal({
   showSubmit = true,
   submitText = 'Submit',
   showDraft = true,
-  draftText = 'Save Draft'
+  draftText = 'Save Draft',
+  onDraft
 }: IModalProps) {
   const [open, setOpen] = useState<boolean>(false)
 
@@ -47,7 +49,7 @@ export function FormModal({
       <DialogTrigger asChild>
         <Button className='!bg-primary-1'>+ Add</Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-md'>
+      <DialogContent className='w-[50vw] bg-tertiary-3'>
         <DialogHeader>
           <DialogTitle className='text-white'>{title}</DialogTitle>
           <DialogDescription className='text-white'>
@@ -74,12 +76,8 @@ export function FormModal({
                 className='!bg-tertiary-1 text-black text-sm'
                 type='submit'
                 onClick={() => {
-                  // formik.handleSubmit()
-                  // if (!Object.keys(formik.errors).length) {
-                  //   formik.resetForm()
-                  //   setOpen(!open)
-                  // }
-                  console.log('saving draft...')
+                  onDraft(formik.values)
+                  setOpen(!open)
                 }}
               >
                 {draftText}

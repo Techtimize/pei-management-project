@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { columns, ICompany } from './columns'
 import { DataTable } from '../../../components/dataTable/data-table'
-import { FormModal } from '@/components/formModal/formModal'
+import { FormModal } from '@/components/formModal/FormModal'
 import { useFormik } from 'formik'
 import { object, string } from 'yup'
 import AddForm from './AddForm'
 import { IPeiFields } from './types'
+import { setPeiDraft } from '@/store/reducers/draftSlice'
+import { useAppDispatch } from '@/hooks/storeHooks'
 
 function PEIListingPage() {
   const [data, setData] = useState<ICompany[]>([])
+
+  const dispatch = useAppDispatch()
 
   const validationSchema = object().shape({
     pb_id: string().required(),
@@ -220,6 +224,10 @@ function PEIListingPage() {
     console.log('Submit')
   }
 
+  async function handleDraft(values: IPeiFields) {
+    dispatch(setPeiDraft({ pei: values }))
+  }
+
   return (
     <div className='w-full py-2 px-2 space-y-2 bg-tertiary-2'>
       <div className='w-full flex justify-end'>
@@ -227,6 +235,7 @@ function PEIListingPage() {
           title='Add PEI'
           description='Create a new PEI company from scratch'
           formik={formik}
+          onDraft={handleDraft}
         >
           <AddForm formik={formik} handleSubmit={handleSubmit} />
         </FormModal>

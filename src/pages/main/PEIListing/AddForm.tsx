@@ -15,7 +15,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
     <form
       ref={formRef}
       onSubmit={handleSubmit}
-      className='flex flex-col gap-3 h-full items-center max-h-[50vh] overflow-y-auto px-2'
+      className='flex flex-col gap-3 h-full items-center max-h-[50vh] overflow-y-auto pr-5'
     >
       <div className='flex flex-col gap-1 w-full'>
         <Label htmlFor='pb_id' className='text-white'>
