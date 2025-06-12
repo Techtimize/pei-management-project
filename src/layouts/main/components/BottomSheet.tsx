@@ -74,11 +74,12 @@ function BottomSheet() {
                             drafts[key as keyType]?.[field as fieldType] !== ''
                         )
                         .map(
-                          (field) => (
+                          (field, index) => (
                             <>
                               {/* <span className='font-bold'>{field}: </span> */}
                               <span>
-                                {drafts[key as keyType]?.[field as fieldType]},{' '}
+                                {index !== 0 ? ', ' : ''}
+                                {drafts[key as keyType]?.[field as fieldType]}
                               </span>
                             </>
                           )
