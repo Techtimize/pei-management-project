@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Drawer,
-  // DrawerClose,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   // DrawerFooter,
@@ -12,12 +12,18 @@ import {
 // import { Button } from '@/components/ui/button'
 import { useAppSelector } from '@/hooks/storeHooks'
 import { IDraftSlice } from '@/store/reducers/draftSlice'
+import { useNavigate } from 'react-router'
 
 type keyType = keyof IDraftSlice
 type fieldType = keyof IDraftSlice[keyof IDraftSlice]
 
 function BottomSheet() {
   const drafts = useAppSelector((state) => state.draft)
+  const navigate = useNavigate()
+
+  function handleDraftClick(key: 'pei' | 'portfolio' | 'local' | 'subsidiary') {
+    navigate(`/${key}-companies`, { state: { draft: true } })
+  }
 
   return (
     <Drawer>
@@ -55,30 +61,32 @@ function BottomSheet() {
           {Object.keys(drafts).length > 0 ? (
             <ul className='space-y-2'>
               {Object.keys(drafts).map((key: string) => (
-                <li
-                  key={key}
-                  className='p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700'
-                >
-                  <div className='text-white'>{key.toUpperCase()}</div>
-                  <div className='text-sm text-gray-400'>
-                    {Object.keys(drafts[key as keyType] as object)
-                      .filter(
-                        (field) =>
-                          drafts[key as keyType]?.[field as fieldType] !== ''
-                      )
-                      .map(
-                        (field) => (
-                          <>
-                            {/* <span className='font-bold'>{field}: </span> */}
-                            <span>
-                              {drafts[key as keyType]?.[field as fieldType]},{' '}
-                            </span>
-                          </>
+                <DrawerClose asChild key={key}>
+                  <li
+                    className='p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700'
+                    onClick={() => handleDraftClick(key as keyType)}
+                  >
+                    <div className='text-white'>{key.toUpperCase()}</div>
+                    <div className='text-sm text-gray-400'>
+                      {Object.keys(drafts[key as keyType] as object)
+                        .filter(
+                          (field) =>
+                            drafts[key as keyType]?.[field as fieldType] !== ''
                         )
-                        // ': ' +
-                      )}
-                  </div>
-                </li>
+                        .map(
+                          (field) => (
+                            <>
+                              {/* <span className='font-bold'>{field}: </span> */}
+                              <span>
+                                {drafts[key as keyType]?.[field as fieldType]},{' '}
+                              </span>
+                            </>
+                          )
+                          // ': ' +
+                        )}
+                    </div>
+                  </li>
+                </DrawerClose>
               ))}
               {/* <li className='p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700'>
               <div className='text-white'>PEI</div>
@@ -105,11 +113,6 @@ function BottomSheet() {
             </div>
           )}
         </div>
-        {/*<DrawerFooter>
-           <DrawerClose>
-            <Button variant='outline'>Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>*/}
       </DrawerContent>
     </Drawer>
   )

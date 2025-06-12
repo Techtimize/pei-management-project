@@ -16,6 +16,7 @@ import { useState } from 'react'
 // import { Label } from '@/components/ui/label'
 
 interface IModalProps {
+  defaultOpen?: boolean
   title: string
   description: string
   children: React.ReactNode
@@ -30,6 +31,7 @@ interface IModalProps {
 }
 
 export function FormModal({
+  defaultOpen = false,
   title,
   description,
   children,
@@ -42,7 +44,7 @@ export function FormModal({
   draftText = 'Save Draft',
   onDraft
 }: IModalProps) {
-  const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(defaultOpen)
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
