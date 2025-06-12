@@ -77,6 +77,7 @@ export function FormModal({
                 type='submit'
                 onClick={() => {
                   onDraft(formik.values)
+                  formik.resetForm()
                   setOpen(!open)
                 }}
               >

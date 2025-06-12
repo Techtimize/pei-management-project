@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from 'react-router'
 import TopBar from './components/Topbar'
 import Sidebar from './components/Sidebar'
 import { useAppSelector } from '@/hooks/storeHooks'
+import BottomSheet from './components/BottomSheet'
 
 function MainLayout() {
   const [showSidebar, setShowSidebar] = useState<boolean>(true)
@@ -72,6 +73,10 @@ function MainLayout() {
             <Outlet />
           </div>
         </div>
+      </div>
+
+      <div className='fixed bottom-0 right-0 left-0 transition-all duration-100 ease-in-out bg-primary-2 hover:bg-primary-1 cursor-pointer h-5 text-white text-sm'>
+        <BottomSheet />
       </div>
     </>
   )
