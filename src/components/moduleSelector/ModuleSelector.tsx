@@ -1,3 +1,4 @@
+import { conf } from '@/config'
 import { ModuleTypeEnum } from '@/store/reducers/moduleSlice'
 import React from 'react'
 
@@ -14,7 +15,11 @@ function ModuleSelector({
   return (
     <div className='px-6 py-4 overflow-hidden'>
       <div className='flex gap-4 overflow-hidden'>
-        <label className='flex items-center text-lg'>
+        <label
+          className={`flex items-center text-lg ${
+            conf.GPE_ENABLED === 0 ? ' hidden' : ''
+          }`}
+        >
           <input
             type='radio'
             value={ModuleTypeEnum.GPE}

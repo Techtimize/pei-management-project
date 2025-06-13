@@ -1,26 +1,39 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { FiBell, FiSettings, FiUser, FiMenu, FiLogOut } from 'react-icons/fi'
+import {
+  // FiBell,
+  // FiSettings,
+  FiUser,
+  FiMenu,
+  FiLogOut
+} from 'react-icons/fi'
 import type { ITopBarProps } from '../types'
 import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
 import { logout } from '@/store/reducers/authSlice'
 
 const TopBar = ({ toggleSidebar, layout }: ITopBarProps) => {
   const [showMobileMenu, setShowMobileMenu] = useState(false)
-  const [showNotifications, setShowNotifications] = useState(false)
+  // NOT Needed at the moment
+  // const [showNotifications, setShowNotifications] = useState(false)
+
   const [showProfileMenu, setShowProfileMenu] = useState(false)
   const auth = useAppSelector((state) => state.auth)
-  const notificationsRef = useRef<HTMLDivElement>(null)
+
+  // Not NOT Needed at the moment
+  // const notificationsRef = useRef<HTMLDivElement>(null)
+
   const profileRef = useRef<HTMLDivElement>(null)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        notificationsRef.current &&
-        !notificationsRef.current.contains(event.target as Node)
-      ) {
-        setShowNotifications(false)
-      }
+      // NOT Needed at the moment
+      // if (
+      //   notificationsRef.current &&
+      //   !notificationsRef.current.contains(event.target as Node)
+      // ) {
+      //   setShowNotifications(false)
+      // }
+
       if (
         profileRef.current &&
         !profileRef.current.contains(event.target as Node)
@@ -42,18 +55,13 @@ const TopBar = ({ toggleSidebar, layout }: ITopBarProps) => {
     <div
       className={`${
         layout === 'desktop' ? 'h-1/8' : !showMobileMenu ? 'h-1/10' : 'h-1/4'
-      } w-full flex flex-col md:flex-row items-center justify-between px-4 md:px-6 py-4 shadow-sm bg-primary-3`}
+      } w-full flex flex-col md:flex-row items-center justify-between px-4 md:px-6 py-4 shadow-sm bg-tertiary-1`}
     >
       <div className='w-full h-full md:w-52 flex items-center justify-between md:justify-start gap-4 z-50'>
-        <div className='flex h-full items-center gap-4'>
-          <FiMenu
-            className='w-6 h-6 text-gray-300 cursor-pointer hover:text-white'
-            onClick={toggleSidebar}
-          />
-          <div className='h-full w-50'>
-            <img src='../../../../public/deloitte.svg' className='h-full' />
-          </div>
-        </div>
+        <FiMenu
+          className='w-6 h-6 text-gray-300 cursor-pointer hover:text-white'
+          onClick={toggleSidebar}
+        />
         <button
           className='md:hidden text-gray-300'
           onClick={() => setShowMobileMenu(!showMobileMenu)}
@@ -71,7 +79,8 @@ const TopBar = ({ toggleSidebar, layout }: ITopBarProps) => {
           showMobileMenu ? 'flex' : 'hidden'
         } md:flex w-full md:w-52 flex-col md:flex-row items-center justify-center md:justify-end space-y-4 md:space-y-0 md:space-x-6 mt-4 md:mt-0`}
       >
-        <div className='relative' ref={notificationsRef}>
+        {/* NOT Needed at the moment */}
+        {/* <div className='relative' ref={notificationsRef}>
           <div
             className='flex items-center cursor-pointer'
             onClick={() => setShowNotifications(!showNotifications)}
@@ -93,9 +102,10 @@ const TopBar = ({ toggleSidebar, layout }: ITopBarProps) => {
               </div>
             </div>
           )}
-        </div>
+        </div> */}
 
-        <div className='relative'>
+        {/* NOT Needed at the moment */}
+        {/* <div className='relative'>
           <div
             className='flex items-center cursor-pointer'
             // onClick={() => setShowProfileMenu(!showProfileMenu)}
@@ -107,7 +117,7 @@ const TopBar = ({ toggleSidebar, layout }: ITopBarProps) => {
               </span>
             )}
           </div>
-        </div>
+        </div> */}
 
         <div className='relative' ref={profileRef}>
           <div

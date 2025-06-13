@@ -1,3 +1,4 @@
+import { conf } from '@/config'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 export enum ModuleTypeEnum {
@@ -10,7 +11,7 @@ interface IModuleState {
 }
 
 const initialState: IModuleState = {
-  moduleType: ModuleTypeEnum.GPE
+  moduleType: conf.GPE_ENABLED ? ModuleTypeEnum.GPE : ModuleTypeEnum.USPE
 }
 
 export const moduleSlice = createSlice({

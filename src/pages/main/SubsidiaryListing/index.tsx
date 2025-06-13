@@ -166,7 +166,7 @@ function SubsidiaryListingPage() {
   }
 
   return (
-    <div className='w-full py-10 px-2 bg-tertiary-2'>
+    <div className='w-full py-10 px-2'>
       <DataTable columns={columns} data={data} />
     </div>
   )
