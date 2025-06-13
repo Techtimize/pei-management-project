@@ -79,7 +79,7 @@ function Homepage() {
   }, [searchTerm, values])
 
   return (
-    <div className='flex h-[100%] justify-center items-center p-4 md:px-10 bg-tertiary-2'>
+    <div className='flex h-[100%] justify-center items-center p-4 md:px-10'>
       <div className='relative w-full flex flex-col md:flex-row gap-2'>
         <div className='relative lg:flex-2 md:flex-1 h-[38px]'>
           <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4 bg-white' />

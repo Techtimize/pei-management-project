@@ -25,40 +25,45 @@ const Sidebar = ({
   }
 
   return (
-    <div className='relative top-0 left-0 flex flex-col justify-center w-[100%] h-screen bg-primary-3 text-white'>
-      <nav>
-        <ul className='space-y-2'>
-          {mainRoutes.map((route) =>
-            (moduleType === ModuleTypeEnum.USPE && route.isUs) ||
-            moduleType === ModuleTypeEnum.GPE ? (
-              <li key={route.path}>
-                <Link
-                  to={route.path}
-                  onClick={() =>
-                    layout &&
-                    layout === 'mobile' &&
-                    setShowSidebar(!showSidebar)
-                  }
-                  className={`flex items-center px-6 py-3 text-gray-300 hover:bg-primary-1 transition-colors ${
-                    location.pathname === route.path && showSidebar
-                      ? 'bg-primary-1'
-                      : ''
-                  }`}
-                >
-                  {route.svg}
-                  <span className='overflow-hidden'>{route.label}</span>
-                </Link>
-              </li>
-            ) : null
-          )}
-        </ul>
-      </nav>
+    <div className='relative top-0 left-0 flex flex-col justify-center w-[100%] h-screen bg-tertiary-1 text-white'>
+      <div className='h-1/4 flex justify-center items-center'>
+        <img src='/public/logo.png' alt='deloitte-logo' className='h-[100px]' />
+      </div>
+      <div className='h-3/4 space-y-10'>
+        <nav>
+          <ul className='space-y-2'>
+            {mainRoutes.map((route) =>
+              (moduleType === ModuleTypeEnum.USPE && route.isUs) ||
+              moduleType === ModuleTypeEnum.GPE ? (
+                <li key={route.path}>
+                  <Link
+                    to={route.path}
+                    onClick={() =>
+                      layout &&
+                      layout === 'mobile' &&
+                      setShowSidebar(!showSidebar)
+                    }
+                    className={`flex items-center px-6 py-3 text-gray-300 hover:bg-tertiary-2 hover:text-black transition-colors ${
+                      location.pathname === route.path && showSidebar
+                        ? 'bg-tertiary-3'
+                        : ''
+                    }`}
+                  >
+                    {route.svg}
+                    <span className='overflow-hidden'>{route.label}</span>
+                  </Link>
+                </li>
+              ) : null
+            )}
+          </ul>
+        </nav>
 
-      <ModuleSelector
-        handleModuleChange={handleModuleChange}
-        moduleType={moduleType}
-        dark={false}
-      />
+        <ModuleSelector
+          handleModuleChange={handleModuleChange}
+          moduleType={moduleType}
+          dark={false}
+        />
+      </div>
     </div>
   )
 }

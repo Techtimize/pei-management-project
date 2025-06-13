@@ -237,7 +237,7 @@ function PEIListingPage() {
   }
 
   return (
-    <div className='w-full py-2 px-2 space-y-2 bg-tertiary-2'>
+    <div className='w-full py-2 px-2 space-y-2'>
       <div className='w-full flex justify-end'>
         <FormModal
           title='Add PEI'

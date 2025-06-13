@@ -69,13 +69,13 @@ function MainLayout() {
           id='main-layout'
         >
           <TopBar toggleSidebar={toggleSidebar} layout={layout} />
-          <div className='h-7/8 w-full overflow-y-auto bg-tertiary-2'>
+          <div className='h-7/8 w-full overflow-y-auto bg-tertiary-3'>
             <Outlet />
           </div>
         </div>
       </div>
 
-      <div className='fixed bottom-0 right-0 left-0 transition-all duration-100 ease-in-out bg-primary-2 hover:bg-primary-1 cursor-pointer h-5 text-white text-sm'>
+      <div className='fixed bottom-0 right-0 left-0 transition-all duration-100 ease-in-out bg-primary-3 hover:bg-primary-2 cursor-pointer h-5 text-white text-sm'>
         <BottomSheet />
       </div>
     </>

@@ -75,7 +75,7 @@ export function FormModal({
           <div>
             {showDraft && (
               <Button
-                className='!bg-tertiary-1 text-black text-sm'
+                className='!bg-tertiary-2 text-black text-sm'
                 type='submit'
                 onClick={() => {
                   onDraft(formik.values)
