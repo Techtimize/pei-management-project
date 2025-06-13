@@ -8,13 +8,14 @@ import AddForm from './AddForm'
 import { IPeiFields } from './types'
 import { setPeiDraft } from '@/store/reducers/draftSlice'
 import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
-import { useLocation } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
 function PEIListingPage() {
   const [data, setData] = useState<ICompany[]>([])
   const { state } = useLocation()
   const draftPEI = useAppSelector((state) => state.draft.pei)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const validationSchema = object().shape({
     pb_id: string().required(),
@@ -37,28 +38,22 @@ function PEIListingPage() {
 
   const formik = useFormik<IPeiFields>({
     initialValues: {
-      pb_id: draftPEI?.pb_id ?? '',
-      swift_client_number: state?.draft
-        ? draftPEI?.swift_client_number ?? ''
-        : '',
-      swift_client_name: state?.draft ? draftPEI?.swift_client_name ?? '' : '',
-      gmdm_id: state?.draft ? draftPEI?.gmdm_id ?? '' : '',
-      dgmf_id: state?.draft ? draftPEI?.dgmf_id ?? '' : '',
-      duns_number: state?.draft ? draftPEI?.duns_number ?? '' : '',
-      view_type: state?.draft ? draftPEI?.view_type ?? '' : '',
-      tableau_inclusion_status: state?.draft
-        ? draftPEI?.tableau_inclusion_status ?? ''
-        : '',
-      requested_by_team: state?.draft ? draftPEI?.requested_by_team ?? '' : '',
-      contact_email: state?.draft ? draftPEI?.contact_email ?? '' : '',
-      priority_for_feedback: state?.draft
-        ? draftPEI?.priority_for_feedback ?? ''
-        : '',
-      fy_period_added: state?.draft ? draftPEI?.fy_period_added ?? '' : '',
-      reporting_team: state?.draft ? draftPEI?.reporting_team ?? '' : '',
-      gmdm_legal_name: state?.draft ? draftPEI?.gmdm_legal_name ?? '' : '',
-      pb_name: state?.draft ? draftPEI?.pb_name ?? '' : '',
-      sources: state?.draft ? draftPEI?.sources ?? '' : ''
+      pb_id: '',
+      swift_client_number: '',
+      swift_client_name: '',
+      gmdm_id: '',
+      dgmf_id: '',
+      duns_number: '',
+      view_type: '',
+      tableau_inclusion_status: '',
+      requested_by_team: '',
+      contact_email: '',
+      priority_for_feedback: '',
+      fy_period_added: '',
+      reporting_team: '',
+      gmdm_legal_name: '',
+      pb_name: '',
+      sources: ''
     },
     onSubmit: async (values) => {
       console.log('Submitting')
@@ -67,6 +62,28 @@ function PEIListingPage() {
     },
     validationSchema
   })
+
+  useEffect(() => {
+    if (state?.draft && draftPEI)
+      formik.setValues({
+        pb_id: draftPEI.pb_id,
+        swift_client_number: draftPEI?.swift_client_number,
+        swift_client_name: draftPEI?.swift_client_name,
+        gmdm_id: draftPEI?.gmdm_id,
+        dgmf_id: draftPEI?.dgmf_id,
+        duns_number: draftPEI?.duns_number,
+        view_type: draftPEI?.view_type,
+        tableau_inclusion_status: draftPEI?.tableau_inclusion_status,
+        requested_by_team: draftPEI?.requested_by_team,
+        contact_email: draftPEI?.contact_email,
+        priority_for_feedback: draftPEI?.priority_for_feedback,
+        fy_period_added: draftPEI?.fy_period_added,
+        reporting_team: draftPEI?.reporting_team,
+        gmdm_legal_name: draftPEI?.gmdm_legal_name,
+        pb_name: draftPEI?.pb_name,
+        sources: draftPEI?.sources
+      })
+  }, [state])
 
   useEffect(() => {
     getData()
@@ -234,6 +251,10 @@ function PEIListingPage() {
 
   async function handleDraft(values: IPeiFields) {
     dispatch(setPeiDraft({ pei: values }))
+    navigate('/pei-companies', { state: { draft: false } })
+  }
+  async function handleCancel() {
+    navigate('/pei-companies', { state: { draft: false } })
   }
 
   return (
@@ -245,6 +266,7 @@ function PEIListingPage() {
           formik={formik}
           onDraft={handleDraft}
           defaultOpen={state?.draft || false}
+          onCancel={handleCancel}
         >
           <AddForm formik={formik} handleSubmit={handleSubmit} />
         </FormModal>
