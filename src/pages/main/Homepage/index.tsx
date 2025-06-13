@@ -10,11 +10,8 @@ import {
   ISearchByOption,
   searchByOptions
 } from '@/config/constants'
-
-interface IFilteredItems {
-  value: string
-  id: string
-}
+import { PEIData } from '@/config/stub'
+import { IPeiFields } from '../PEIListing/types'
 
 const selectStyle = {
   control: (styles: CSSObjectWithLabel) => ({
@@ -30,28 +27,16 @@ const selectStyle = {
   })
 }
 
+const values = PEIData
+
 function Homepage() {
   const [companyValue, setCompanyValue] = useState<ICompany>(companies[0])
   const [searchByValue, setSearchByValue] = useState<ISearchByOption>(
     searchByOptions[0]
   )
-  const [filteredItems, setFilteredItems] = useState<IFilteredItems[]>([])
+  const [filteredItems, setFilteredItems] = useState<IPeiFields[]>([])
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [isSearchFocused, setIsSearchFocused] = useState(false)
-  const [values] = useState<IFilteredItems[]>([
-    { id: '1', value: 'Golden Crust' },
-    { id: '2', value: 'Classic Slice' },
-    { id: '3', value: 'Crust Corner' },
-    { id: '4', value: 'Slice Haven, Pie Palace' },
-    { id: '11', value: 'Pie Palace' },
-    { id: '12', value: 'Pizza Paradise' },
-    { id: '5', value: 'Dough Dynasty' },
-    { id: '6', value: 'Crust & Co.' },
-    { id: '7', value: 'Pepperoni Place' },
-    { id: '8', value: 'Margherita Masters' },
-    { id: '9', value: 'Cheesy Corner' },
-    { id: '10', value: 'Pizza Planet' }
-  ])
 
   const moduleType = useAppSelector((state) => state.module.moduleType)
 
@@ -71,12 +56,16 @@ function Homepage() {
   }, [moduleType])
 
   useEffect(() => {
+    if (searchTerm === '') return
     setFilteredItems(
       values.filter((val) =>
-        val.value.toLowerCase().trim().includes(searchTerm.toLowerCase().trim())
+        val[searchByValue.value as keyof IPeiFields]
+          .toLowerCase()
+          .trim()
+          .includes(searchTerm.toLowerCase().trim())
       )
     )
-  }, [searchTerm, values])
+  }, [searchTerm, values, searchByValue])
 
   return (
     <div className='flex h-[100%] justify-center items-center p-4 md:px-10'>
@@ -94,15 +83,17 @@ function Homepage() {
             <div className='absolute w-full bg-white border-2 border-gray-300 rounded-lg mt-2 max-h-[200px] overflow-y-auto z-10 text-start shadow-lg'>
               {filteredItems.map((item) => (
                 <div
-                  key={item.id}
+                  key={item.pb_id}
                   className='px-4 py-3 hover:bg-tertiary-2 cursor-pointer border-b border-tertiary-2 last:border-b-0'
                   onMouseDown={() => {
                     setFilteredItems([])
-                    setSearchTerm(item.value)
+                    setSearchTerm(item[searchByValue.value as keyof IPeiFields])
                     setIsSearchFocused(false)
                   }}
                 >
-                  {item.value}
+                  {(searchByValue.value !== 'pb_name'
+                    ? `(${item[searchByValue.value as keyof IPeiFields]}) `
+                    : '') + item.pb_name}
                 </div>
               ))}
             </div>
