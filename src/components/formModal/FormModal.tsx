@@ -52,8 +52,14 @@ export function FormModal({
     setOpen(defaultOpen)
   }, [defaultOpen])
 
+  function handleOpenChange(newOpen: boolean) {
+    setOpen(newOpen)
+    formik.resetForm()
+    if (!newOpen) onCancel()
+  }
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button className='!bg-primary-1'>+ Add</Button>
       </DialogTrigger>
@@ -99,11 +105,7 @@ export function FormModal({
               <DialogClose asChild>
                 <Button
                   className='!bg-danger-1'
-                  onClick={() => {
-                    onCancel()
-                    formik.resetForm()
-                    setOpen(!open)
-                  }}
+                  onClick={() => handleOpenChange(false)}
                 >
                   {cancelText}
                 </Button>
