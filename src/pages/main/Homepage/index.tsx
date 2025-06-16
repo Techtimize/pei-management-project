@@ -91,9 +91,12 @@ function Homepage() {
                     setIsSearchFocused(false)
                   }}
                 >
-                  {(searchByValue.value !== 'pb_name'
-                    ? `(${item[searchByValue.value as keyof IPeiFields]}) `
-                    : '') + item.pb_name}
+                  {searchByValue.value !== 'pb_name' && (
+                    <span className='text-gray-500 text-sm mr-2'>
+                      {item[searchByValue.value as keyof IPeiFields]}
+                    </span>
+                  )}
+                  <span className=''>{item.pb_name}</span>
                 </div>
               ))}
             </div>
