@@ -16,6 +16,7 @@ function PEIListingPage() {
   const [data, setData] = useState<IPeiFields[]>([])
   const [defaultFormOpen, setDefaultFormOpen] = useState<boolean>(false)
   const [actionType, setActionType] = useState<ActionTypes | undefined>()
+  const [highlightedItem, setHighlightedItem] = useState<string | undefined>()
 
   const { state } = useLocation()
   const navigate = useNavigate()
@@ -105,7 +106,8 @@ function PEIListingPage() {
       })
     } else {
       const foundIndex = data.findIndex((d) => d.pb_id === state.pb_id)
-      console.log('🚀 ~ useEffect ~ foundIndex:', foundIndex)
+      if (state.actionType === ActionTypes.SEARCH)
+        setHighlightedItem(state.pb_id)
       if (foundIndex !== -1) {
         setDefaultFormOpen(true)
         formik.setValues({
@@ -139,10 +141,6 @@ function PEIListingPage() {
     setData(PEIData)
   }
 
-  async function handleSubmit() {
-    console.log('Submit')
-  }
-
   async function handleDraft(values: IPeiFields) {
     dispatch(setPeiDraft({ pei: values }))
     navigate('/pei-companies', { state: { actionType: ActionTypes.CLOSE } })
@@ -150,13 +148,30 @@ function PEIListingPage() {
   async function handleCancel() {
     navigate('/pei-companies', { state: { actionType: ActionTypes.CLOSE } })
   }
+  async function handleRelationship(pb_id: string) {
+    navigate('/pei-companies', {
+      state: { pb_id, actionType: ActionTypes.RELATIONSHIP }
+    })
+  }
+  async function handleSubmit(values: IPeiFields) {
+    console.log('🚀 ~ handleSubmit ~ values:', values)
+    navigate('/pei-companies', { state: { actionType: ActionTypes.CLOSE } })
+  }
 
   return (
     <div className='w-full py-2 px-2 space-y-2'>
+      {/* <RelationshipFormModal /> */}
+
       <div className='w-full flex justify-end'>
         <FormModal
+          defaultOpen={defaultFormOpen}
+          formik={formik}
+          onDraft={handleDraft}
+          onCancel={handleCancel}
+          onRelationship={handleRelationship}
+          onSubmit={handleSubmit}
           title={
-            actionType === ActionTypes.VIEW
+            actionType === ActionTypes.VIEW || actionType === ActionTypes.SEARCH
               ? peiFormTexts.view.title
               : actionType === ActionTypes.EDIT
               ? peiFormTexts.edit.title
@@ -165,7 +180,7 @@ function PEIListingPage() {
               : peiFormTexts.add.title
           }
           description={
-            actionType === ActionTypes.VIEW
+            actionType === ActionTypes.VIEW || actionType === ActionTypes.SEARCH
               ? peiFormTexts.view.description
               : actionType === ActionTypes.EDIT
               ? peiFormTexts.edit.description
@@ -173,32 +188,44 @@ function PEIListingPage() {
               ? peiFormTexts.draft.description
               : peiFormTexts.add.description
           }
-          formik={formik}
-          onDraft={handleDraft}
-          defaultOpen={defaultFormOpen}
-          onCancel={handleCancel}
+          cancelText={
+            actionType === ActionTypes.VIEW || actionType === ActionTypes.SEARCH
+              ? 'Close'
+              : 'Cancel'
+          }
           showDraft={
             !(
               actionType === ActionTypes.VIEW ||
+              actionType === ActionTypes.SEARCH ||
               actionType === ActionTypes.RELATIONSHIP
             )
           }
           showSubmit={
             !(
               actionType === ActionTypes.VIEW ||
+              actionType === ActionTypes.SEARCH ||
               actionType === ActionTypes.RELATIONSHIP
             )
           }
-          cancelText={actionType === ActionTypes.VIEW ? 'Close' : 'Cancel'}
+          showRelationship={
+            actionType === ActionTypes.VIEW || actionType === ActionTypes.SEARCH
+          }
         >
           <AddForm
             formik={formik}
-            handleSubmit={handleSubmit}
-            disabled={actionType === ActionTypes.VIEW}
+            disabled={
+              actionType === ActionTypes.VIEW ||
+              actionType === ActionTypes.SEARCH
+            }
           />
         </FormModal>
       </div>
-      <DataTable columns={columns} data={data} />
+
+      <DataTable
+        columns={columns}
+        data={data}
+        highlightedItem={highlightedItem}
+      />
     </div>
   )
 }

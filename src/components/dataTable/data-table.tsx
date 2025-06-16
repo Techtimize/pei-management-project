@@ -21,7 +21,8 @@ import { DataTableProps } from './types'
 
 export function DataTable<TData, TValue>({
   columns,
-  data
+  data,
+  highlightedItem
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -59,8 +60,12 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                   className={`${
-                    index % 2 === 0 ? 'bg-[#eee]' : 'bg-white'
-                  } hover:bg-tertiary-2`}
+                    highlightedItem && highlightedItem === row.getValue('pb_id')
+                      ? 'bg-primary-1 text-white'
+                      : index % 2 === 0
+                      ? 'bg-[#eee]'
+                      : 'bg-white'
+                  } hover:bg-tertiary-2 hover:text-black`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

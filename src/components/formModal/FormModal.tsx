@@ -27,8 +27,12 @@ interface IModalProps {
   submitText?: string
   showDraft?: boolean
   draftText?: string
-  onDraft: (values: IPeiFields) => void
-  onCancel: () => void
+  onDraft?: (values: IPeiFields) => void
+  onSubmit?: (values: IPeiFields) => void
+  onCancel?: () => void
+  showRelationship?: boolean
+  relationshipText?: string
+  onRelationship?: (values: string) => void
 }
 
 export function FormModal({
@@ -39,12 +43,16 @@ export function FormModal({
   formik,
   showCancel = true,
   cancelText = 'Cancel',
+  onCancel = () => null,
   showSubmit = true,
   submitText = 'Submit',
+  onSubmit = () => null,
   showDraft = true,
   draftText = 'Save Draft',
-  onDraft,
-  onCancel
+  onDraft = () => null,
+  showRelationship = false,
+  relationshipText = 'Manage Relationship',
+  onRelationship = () => null
 }: IModalProps) {
   const [open, setOpen] = useState<boolean>(false)
 
@@ -56,6 +64,11 @@ export function FormModal({
     setOpen(newOpen)
     formik.resetForm()
     if (!newOpen) onCancel()
+  }
+
+  function resetAndClose() {
+    formik.resetForm()
+    setOpen(!open)
   }
 
   return (
@@ -84,18 +97,30 @@ export function FormModal({
           </div>
         </div>
         <DialogFooter className='sm:justify-start md:justify-between'>
-          <div>
+          <div className='space-x-2'>
             {showDraft && (
               <Button
                 className='!bg-tertiary-2 text-black text-sm'
                 type='submit'
                 onClick={() => {
                   onDraft(formik.values)
-                  formik.resetForm()
-                  setOpen(!open)
+                  resetAndClose()
                 }}
               >
                 {draftText}
+              </Button>
+            )}
+            {showRelationship && (
+              <Button
+                className='!bg-secondary-1 text-black text-sm'
+                type='submit'
+                onClick={() => {
+                  onRelationship(formik.values.pb_id)
+                  resetAndClose()
+                }}
+                disabled
+              >
+                {relationshipText}
               </Button>
             )}
           </div>
@@ -119,8 +144,8 @@ export function FormModal({
                 onClick={() => {
                   formik.handleSubmit()
                   if (!Object.keys(formik.errors).length) {
-                    formik.resetForm()
-                    setOpen(!open)
+                    onSubmit(formik.values)
+                    resetAndClose()
                   }
                 }}
               >

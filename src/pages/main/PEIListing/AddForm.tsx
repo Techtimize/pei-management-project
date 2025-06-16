@@ -5,17 +5,15 @@ import React, { useRef } from 'react'
 import { IPeiFields } from './types'
 
 interface IAddFormProps {
-  handleSubmit: () => void
   formik: FormikProps<IPeiFields>
   disabled?: boolean
 }
 
-function AddForm({ handleSubmit, formik, disabled = false }: IAddFormProps) {
+function AddForm({ formik, disabled = false }: IAddFormProps) {
   const formRef = useRef<HTMLFormElement | null>(null)
   return (
     <form
       ref={formRef}
-      onSubmit={handleSubmit}
       className='flex flex-col gap-3 h-full items-center max-h-[50vh] overflow-y-auto pr-5'
     >
       <div className='flex flex-col gap-1 w-full'>
