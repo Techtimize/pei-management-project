@@ -7,9 +7,10 @@ import { IPeiFields } from './types'
 interface IAddFormProps {
   handleSubmit: () => void
   formik: FormikProps<IPeiFields>
+  disabled?: boolean
 }
 
-function AddForm({ handleSubmit, formik }: IAddFormProps) {
+function AddForm({ handleSubmit, formik, disabled = false }: IAddFormProps) {
   const formRef = useRef<HTMLFormElement | null>(null)
   return (
     <form
@@ -29,6 +30,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.pb_id}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.pb_id && formik.touched.pb_id && formik.errors.pb_id}
@@ -47,6 +49,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.swift_client_number}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.swift_client_number &&
@@ -67,6 +70,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.gmdm_id}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.gmdm_id &&
@@ -87,6 +91,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.dgmf_id}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.dgmf_id &&
@@ -107,6 +112,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.duns_number}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.duns_number &&
@@ -127,6 +133,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.swift_client_name}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.swift_client_name &&
@@ -147,6 +154,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.gmdm_legal_name}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.gmdm_legal_name &&
@@ -167,6 +175,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.view_type}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.view_type &&
@@ -187,6 +196,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.tableau_inclusion_status}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.tableau_inclusion_status &&
@@ -207,6 +217,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.requested_by_team}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.requested_by_team &&
@@ -227,6 +238,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.contact_email}
           placeholder='info@techtimize.com'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.contact_email &&
@@ -247,6 +259,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.priority_for_feedback}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.priority_for_feedback &&
@@ -267,6 +280,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.reporting_team}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.reporting_team &&
@@ -287,6 +301,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.fy_period_added}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.fy_period_added &&
@@ -307,6 +322,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.pb_name}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.pb_name &&
@@ -327,6 +343,7 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
           value={formik.values.sources}
           placeholder='00000000'
           className='bg-white'
+          disabled={disabled}
         />
         <p className='text-danger-2 text-sm self-end'>
           {formik.errors.sources &&
@@ -335,17 +352,19 @@ function AddForm({ handleSubmit, formik }: IAddFormProps) {
         </p>
       </div>
 
-      <div className='w-full flex justify-end'>
-        <span
-          className='text-secondary-1 underline text-sm cursor-pointer hover:opacity-80'
-          onClick={() => {
-            formRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-            formik.resetForm()
-          }}
-        >
-          Reset
-        </span>
-      </div>
+      {!disabled && (
+        <div className='w-full flex justify-end'>
+          <span
+            className='text-secondary-1 underline text-sm cursor-pointer hover:opacity-80'
+            onClick={() => {
+              formRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+              formik.resetForm()
+            }}
+          >
+            Reset
+          </span>
+        </div>
+      )}
 
       {/* <button type='submit' disabled={formik.isSubmitting} className='w-64'>
                   Submit

@@ -1,104 +1,104 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTableCommon } from '@/components/dataTable/common'
-import { ActionTypes } from '@/components/dataTable/types'
+import { IPeiFields } from './types'
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export interface ICompany {
-  id: string
-  company: string
-  type: string
-  vendor: string
-  inStock: number
-  unitCost: number
-  material: string
-  color: string
-}
+const dataTableCommon = new DataTableCommon<IPeiFields>()
 
-const dataTableCommon = new DataTableCommon<ICompany>()
-
-function handleView(id: string, type: ActionTypes) {
-  console.log(`View ${id} with type ${type}`)
-}
-
-function handleEdit(id: string, type: ActionTypes) {
-  console.log(`View ${id} with type ${type}`)
-}
-
-function handleRelationship(id: string, type: ActionTypes) {
-  console.log(`View ${id} with type ${type}`)
-}
-
-export const columns: ColumnDef<ICompany>[] = [
+export const columns: ColumnDef<IPeiFields>[] = [
   {
     header: '#',
     cell: dataTableCommon.indexCell
   },
+
   {
-    accessorKey: 'id'
-  },
-  {
-    accessorKey: 'company',
+    accessorKey: 'pb_id',
     header: ({ column }) =>
-      dataTableCommon.styledHeader('Company', column, '!bg-transparent'),
+      dataTableCommon.styledHeader('Pitchbook ID', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
+
   {
-    accessorKey: 'type',
+    accessorKey: 'pb_name',
     header: ({ column }) =>
-      dataTableCommon.styledHeader('Type', column, '!bg-transparent'),
+      dataTableCommon.styledHeader('Pitchbook Name', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
+
   {
-    accessorKey: 'vendor',
+    accessorKey: 'duns_number',
     header: ({ column }) =>
-      dataTableCommon.styledHeader('Vendor', column, '!bg-transparent'),
+      dataTableCommon.styledHeader('DUNS', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
+
   {
-    accessorKey: 'inStock',
+    accessorKey: 'swift_client_name',
     header: ({ column }) =>
       dataTableCommon.styledHeader(
-        'In Stock',
+        'Swift Client Name',
         column,
-        '!bg-transparent',
-        'd-flex justify-center'
+        '!bg-transparent'
       ),
-    cell: dataTableCommon.centerCell
+    cell: dataTableCommon.leftCell
   },
+
   {
-    accessorKey: 'unitCost',
+    accessorKey: 'contact_email',
+    header: ({ column }) =>
+      dataTableCommon.styledHeader('Contact Email', column, '!bg-transparent'),
+    cell: dataTableCommon.leftCell
+  },
+
+  {
+    accessorKey: 'fy_period_added',
+    header: ({ column }) =>
+      dataTableCommon.styledHeader('FY Period', column, '!bg-transparent'),
+    cell: dataTableCommon.leftCell
+  },
+
+  {
+    accessorKey: 'reporting_team',
+    header: ({ column }) =>
+      dataTableCommon.styledHeader('Reporting Team', column, '!bg-transparent'),
+    cell: dataTableCommon.leftCell
+  },
+
+  {
+    accessorKey: 'tableau_inclusion_status',
     header: ({ column }) =>
       dataTableCommon.styledHeader(
-        'Unit Cost',
+        'Tableau Inclusion',
         column,
-        '!bg-transparent !text-center',
-        'd-flex justify-center'
+        '!bg-transparent'
       ),
-    cell: dataTableCommon.centerCell
-  },
-  {
-    accessorKey: 'material',
-    header: ({ column }) =>
-      dataTableCommon.styledHeader('Material', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
+
   {
-    accessorKey: 'color',
+    accessorKey: 'view_type',
     header: ({ column }) =>
-      dataTableCommon.styledHeader('Color', column, '!bg-transparent'),
+      dataTableCommon.styledHeader('View', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
+
+  // {
+  //   accessorKey: 'inStock',
+  //   header: ({ column }) =>
+  //     dataTableCommon.styledHeader(
+  //       'In Stock',
+  //       column,
+  //       '!bg-transparent',
+  //       'd-flex justify-center'
+  //     ),
+  //   cell: dataTableCommon.centerCell
+  // },
+
   {
     accessorKey: 'actions',
     header: () => dataTableCommon.centerHeader('Actions'),
-    cell: (ctx) =>
-      dataTableCommon.actionCell(
-        ctx,
-        handleView,
-        handleEdit,
-        handleRelationship
-      )
+    cell: (ctx) => dataTableCommon.actionCell(ctx, '/pei-companies')
   }
 ]

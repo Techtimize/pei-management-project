@@ -13,6 +13,7 @@ import {
 import { useAppSelector } from '@/hooks/storeHooks'
 import { IDraftSlice } from '@/store/reducers/draftSlice'
 import { useNavigate } from 'react-router'
+import { ActionTypes } from '@/pages/main/PEIListing/types'
 
 type keyType = keyof IDraftSlice
 type fieldType = keyof IDraftSlice[keyof IDraftSlice]
@@ -22,7 +23,7 @@ function BottomSheet() {
   const navigate = useNavigate()
 
   function handleDraftClick(key: 'pei' | 'portfolio' | 'local' | 'subsidiary') {
-    navigate(`/${key}-companies`, { state: { draft: true } })
+    navigate(`/${key}-companies`, { state: { actionType: ActionTypes.DRAFT } })
   }
 
   return (
@@ -63,6 +64,7 @@ function BottomSheet() {
               {Object.keys(drafts).map((key: string) => (
                 <DrawerClose asChild key={key}>
                   <li
+                    key={key}
                     className='p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700'
                     onClick={() => handleDraftClick(key as keyType)}
                   >
