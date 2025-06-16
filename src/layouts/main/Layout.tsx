@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { Outlet } from 'react-router'
+import { Outlet, useNavigate } from 'react-router'
 import TopBar from './components/Topbar'
 import Sidebar from './components/Sidebar'
+import { useAppSelector } from '@/hooks/storeHooks'
+import BottomSheet from './components/BottomSheet'
 
 function MainLayout() {
   const [showSidebar, setShowSidebar] = useState<boolean>(true)
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth)
+  const auth = useAppSelector((state) => state.auth.isLoggedIn)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!auth) navigate('/auth/login', { replace: true })
+  }, [auth])
 
   function toggleSidebar() {
     setShowSidebar(!showSidebar)
@@ -44,21 +52,31 @@ function MainLayout() {
           className={`flex flex-col justify-center items-center transition-all duration-300 ease-in-out ${
             layout === 'desktop' ? '' : 'fixed left-0 top-0 h-screen z-30'
           } ${
-            showSidebar ? (layout === 'desktop' ? 'w-1/5' : 'w-1/3') : 'w-0'
+            showSidebar ? (layout === 'desktop' ? 'w-1/5' : 'w-2/5') : 'w-0'
           }`}
           id='side-bar'
         >
-          <Sidebar />
+          <Sidebar
+            showSidebar={showSidebar}
+            setShowSidebar={setShowSidebar}
+            layout={layout}
+          />
         </div>
         <div
-          className={` flex flex-col h-100vh transition-all duration-300 ease-in-out ${
-            showSidebar && layout === 'desktop' ? 'w-4/5' : 'w-full'
+          className={`flex flex-col h-[100vh] transition-all duration-300 ease-in-out ${
+            showSidebar && layout === 'desktop' ? 'w-4/5' : 'w-screen'
           }`}
           id='main-layout'
         >
           <TopBar toggleSidebar={toggleSidebar} layout={layout} />
-          <Outlet />
+          <div className='h-7/8 w-full overflow-y-auto bg-tertiary-3'>
+            <Outlet />
+          </div>
         </div>
+      </div>
+
+      <div className='fixed bottom-0 right-0 left-0 transition-all duration-100 ease-in-out bg-primary-3 hover:bg-primary-2 cursor-pointer h-5 text-white text-sm'>
+        <BottomSheet />
       </div>
     </>
   )

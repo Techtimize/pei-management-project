@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '..'
 
 interface IAuthSlice {
   isLoggedIn: boolean
@@ -10,18 +9,18 @@ interface IAuthSlice {
 }
 
 const initialState: IAuthSlice = {
-  isLoggedIn: false,
+  isLoggedIn: !!localStorage.getItem('token')?.length,
   role: 0,
   name: 'Furqan',
   preferences: {}
 }
 
 export const authSlice = createSlice({
-  name: 'module',
+  name: 'auth',
   initialState: initialState,
   reducers: {
-    login: (state, action: PayloadAction<boolean>) => {
-      state.isLoggedIn = action.payload
+    login: (state) => {
+      state.isLoggedIn = true
     },
     setProfile: (
       state,
@@ -36,10 +35,12 @@ export const authSlice = createSlice({
       action: PayloadAction<Pick<IAuthSlice, 'preferences'>>
     ) => {
       state.preferences = action.payload.preferences
+    },
+    logout: (state) => {
+      state.isLoggedIn = false
     }
   }
 })
 
-export const { login, setProfile, setPreferences } = authSlice.actions
-export const selectModule = (state: RootState) => state.module.moduleType
+export const { login, setProfile, setPreferences, logout } = authSlice.actions
 export default authSlice.reducer
