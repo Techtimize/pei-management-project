@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { columns, ICompany } from './columns'
+import { columns } from './columns'
 import { DataTable } from '../../../components/dataTable/data-table'
 import { FormModal } from '@/components/formModal/FormModal'
 import { useFormik } from 'formik'
 import { object, string } from 'yup'
 import AddForm from './AddForm'
-import { IPeiFields } from './types'
+import { ActionTypes, IPeiFields } from './types'
 import { setPeiDraft } from '@/store/reducers/draftSlice'
 import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
-import { useLocation } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
+import { PEIData } from '@/config/stub'
 
 function PEIListingPage() {
-  const [data, setData] = useState<ICompany[]>([])
+  const [data, setData] = useState<IPeiFields[]>([])
+  const [defaultFormOpen, setDefaultFormOpen] = useState<boolean>(false)
+  const [actionType, setActionType] = useState<ActionTypes | undefined>()
+
   const { state } = useLocation()
+  const navigate = useNavigate()
+
   const draftPEI = useAppSelector((state) => state.draft.pei)
   const dispatch = useAppDispatch()
 
@@ -37,28 +43,22 @@ function PEIListingPage() {
 
   const formik = useFormik<IPeiFields>({
     initialValues: {
-      pb_id: draftPEI?.pb_id ?? '',
-      swift_client_number: state?.draft
-        ? draftPEI?.swift_client_number ?? ''
-        : '',
-      swift_client_name: state?.draft ? draftPEI?.swift_client_name ?? '' : '',
-      gmdm_id: state?.draft ? draftPEI?.gmdm_id ?? '' : '',
-      dgmf_id: state?.draft ? draftPEI?.dgmf_id ?? '' : '',
-      duns_number: state?.draft ? draftPEI?.duns_number ?? '' : '',
-      view_type: state?.draft ? draftPEI?.view_type ?? '' : '',
-      tableau_inclusion_status: state?.draft
-        ? draftPEI?.tableau_inclusion_status ?? ''
-        : '',
-      requested_by_team: state?.draft ? draftPEI?.requested_by_team ?? '' : '',
-      contact_email: state?.draft ? draftPEI?.contact_email ?? '' : '',
-      priority_for_feedback: state?.draft
-        ? draftPEI?.priority_for_feedback ?? ''
-        : '',
-      fy_period_added: state?.draft ? draftPEI?.fy_period_added ?? '' : '',
-      reporting_team: state?.draft ? draftPEI?.reporting_team ?? '' : '',
-      gmdm_legal_name: state?.draft ? draftPEI?.gmdm_legal_name ?? '' : '',
-      pb_name: state?.draft ? draftPEI?.pb_name ?? '' : '',
-      sources: state?.draft ? draftPEI?.sources ?? '' : ''
+      pb_id: '',
+      swift_client_number: '',
+      swift_client_name: '',
+      gmdm_id: '',
+      dgmf_id: '',
+      duns_number: '',
+      view_type: '',
+      tableau_inclusion_status: '',
+      requested_by_team: '',
+      contact_email: '',
+      priority_for_feedback: '',
+      fy_period_added: '',
+      reporting_team: '',
+      gmdm_legal_name: '',
+      pb_name: '',
+      sources: ''
     },
     onSubmit: async (values) => {
       console.log('Submitting')
@@ -68,164 +68,69 @@ function PEIListingPage() {
     validationSchema
   })
 
+  // useEffect(() => {
+  //   setDefaultFormOpen(state?.draft)
+  //   if (state?.draft && draftPEI)
+
+  // }, [state?.draft, draftPEI])
+
+  useEffect(() => {
+    if (state.actionType === ActionTypes.CLOSE) setDefaultFormOpen(false)
+    else if (state.actionType === ActionTypes.DRAFT && draftPEI) {
+      setDefaultFormOpen(true)
+      setActionType(state.actionType)
+      formik.setValues({
+        pb_id: draftPEI.pb_id,
+        swift_client_number: draftPEI?.swift_client_number,
+        swift_client_name: draftPEI?.swift_client_name,
+        gmdm_id: draftPEI?.gmdm_id,
+        dgmf_id: draftPEI?.dgmf_id,
+        duns_number: draftPEI?.duns_number,
+        view_type: draftPEI?.view_type,
+        tableau_inclusion_status: draftPEI?.tableau_inclusion_status,
+        requested_by_team: draftPEI?.requested_by_team,
+        contact_email: draftPEI?.contact_email,
+        priority_for_feedback: draftPEI?.priority_for_feedback,
+        fy_period_added: draftPEI?.fy_period_added,
+        reporting_team: draftPEI?.reporting_team,
+        gmdm_legal_name: draftPEI?.gmdm_legal_name,
+        pb_name: draftPEI?.pb_name,
+        sources: draftPEI?.sources
+      })
+    } else {
+      const foundIndex = data.findIndex((d) => d.pb_id === state.pb_id)
+      if (foundIndex !== -1 && state.actionType !== ActionTypes.RELATIONSHIP) {
+        setDefaultFormOpen(true)
+        setActionType(state.actionType)
+        formik.setValues({
+          pb_id: data[foundIndex].pb_id,
+          swift_client_number: data[foundIndex].swift_client_number,
+          swift_client_name: data[foundIndex].swift_client_name,
+          gmdm_id: data[foundIndex].gmdm_id,
+          dgmf_id: data[foundIndex].dgmf_id,
+          duns_number: data[foundIndex].duns_number,
+          view_type: data[foundIndex].view_type,
+          tableau_inclusion_status: data[foundIndex].tableau_inclusion_status,
+          requested_by_team: data[foundIndex].requested_by_team,
+          contact_email: data[foundIndex].contact_email,
+          priority_for_feedback: data[foundIndex].priority_for_feedback,
+          fy_period_added: data[foundIndex].fy_period_added,
+          reporting_team: data[foundIndex].reporting_team,
+          gmdm_legal_name: data[foundIndex].gmdm_legal_name,
+          pb_name: data[foundIndex].pb_name,
+          sources: data[foundIndex].sources
+        })
+      }
+    }
+  }, [state?.pb_id, state?.actionType, data, draftPEI])
+
   useEffect(() => {
     getData()
   }, [])
 
   async function getData() {
     // Fetch data from your API here.
-    setData([
-      {
-        id: '728ed52f1',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f2',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f3',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f4',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f5',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f6',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f7',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f8',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f9',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f10',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f11',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f12',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f13',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f14',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      },
-      {
-        id: '728ed52f15',
-        color: 'Black',
-        company: 'Street Pulse Hoodie',
-        inStock: 150,
-        material: 'Cotton',
-        type: 'Hoodie',
-        unitCost: 50,
-        vendor: 'StreetGear'
-      }
-    ])
+    setData(PEIData)
   }
 
   async function handleSubmit() {
@@ -234,6 +139,10 @@ function PEIListingPage() {
 
   async function handleDraft(values: IPeiFields) {
     dispatch(setPeiDraft({ pei: values }))
+    navigate('/pei-companies', { state: { actionType: ActionTypes.CLOSE } })
+  }
+  async function handleCancel() {
+    navigate('/pei-companies', { state: { actionType: ActionTypes.CLOSE } })
   }
 
   return (
@@ -244,9 +153,27 @@ function PEIListingPage() {
           description='Create a new PEI company from scratch'
           formik={formik}
           onDraft={handleDraft}
-          defaultOpen={state?.draft || false}
+          defaultOpen={defaultFormOpen}
+          onCancel={handleCancel}
+          showDraft={
+            !(
+              actionType === ActionTypes.VIEW ||
+              actionType === ActionTypes.RELATIONSHIP
+            )
+          }
+          showSubmit={
+            !(
+              actionType === ActionTypes.VIEW ||
+              actionType === ActionTypes.RELATIONSHIP
+            )
+          }
+          cancelText={actionType === ActionTypes.VIEW ? 'Close' : 'Cancel'}
         >
-          <AddForm formik={formik} handleSubmit={handleSubmit} />
+          <AddForm
+            formik={formik}
+            handleSubmit={handleSubmit}
+            disabled={actionType === ActionTypes.VIEW}
+          />
         </FormModal>
       </div>
       <DataTable columns={columns} data={data} />

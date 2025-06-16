@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Formik, FormikHelpers } from 'formik'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -16,6 +16,7 @@ interface ILoginFormFields {
 
 function Login() {
   const moduleType = useAppSelector((state) => state.module.moduleType)
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -23,6 +24,10 @@ function Login() {
     email: string().required().email(),
     password: string().required().min(8)
   })
+
+  useEffect(() => {
+    if (isLoggedIn) navigate('/')
+  }, [isLoggedIn])
 
   function handleModuleChange(moduleType: ModuleTypeEnum) {
     dispatch(setModuleType(moduleType))
@@ -33,10 +38,9 @@ function Login() {
     helpers: FormikHelpers<ILoginFormFields>
   ) {
     console.log('🚀 ~ Login ~ values:', values)
-
     helpers.setSubmitting(false)
     dispatch(login())
-
+    localStorage.setItem('token', 'dummy-token')
     navigate('/', { replace: true })
   }
 
@@ -44,7 +48,7 @@ function Login() {
     <div className='min-w-screen min-h-screen flex flex-col items-center justify-center bg-tertiary-2 space-y-10 pb-2'>
       <div>
         <div className='h-2/5 flex justify-center items-center'>
-          <img src='/public/logo.png' alt='deloitte-logo' className='h-full' />
+          <img src='/logo.png' alt='deloitte-logo' className='h-full' />
         </div>
 
         <h2 className='text-3xl text-center h-1/5'>
@@ -55,7 +59,7 @@ function Login() {
       <Formik
         initialValues={{
           email: 'admin@deloitte.com',
-          password: 'admin123'
+          password: 'deloitte@123'
         }}
         validationSchema={loginSchema}
         onSubmit={handleSubmit}

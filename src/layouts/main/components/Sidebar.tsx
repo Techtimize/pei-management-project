@@ -27,7 +27,7 @@ const Sidebar = ({
   return (
     <div className='relative top-0 left-0 flex flex-col justify-center w-[100%] h-screen bg-tertiary-1 text-white'>
       <div className='h-1/4 flex justify-center items-center'>
-        <img src='/public/logo.png' alt='deloitte-logo' className='h-[100px]' />
+        <img src='/logo.png' alt='deloitte-logo' className='h-[100px]' />
       </div>
       <div className='h-3/4 space-y-10'>
         <nav>

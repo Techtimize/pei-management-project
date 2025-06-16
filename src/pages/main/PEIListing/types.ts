@@ -16,3 +16,11 @@ export interface IPeiFields {
   pb_name: string
   sources: string
 }
+
+export enum ActionTypes {
+  VIEW,
+  EDIT,
+  RELATIONSHIP,
+  DRAFT,
+  CLOSE
+}

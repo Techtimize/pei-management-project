@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog'
 import { IPeiFields } from '@/pages/main/PEIListing/types'
 import { FormikProps } from 'formik'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { Input } from '@/components/ui/input'
 // import { Label } from '@/components/ui/label'
 
@@ -28,6 +28,7 @@ interface IModalProps {
   showDraft?: boolean
   draftText?: string
   onDraft: (values: IPeiFields) => void
+  onCancel: () => void
 }
 
 export function FormModal({
@@ -42,12 +43,23 @@ export function FormModal({
   submitText = 'Submit',
   showDraft = true,
   draftText = 'Save Draft',
-  onDraft
+  onDraft,
+  onCancel
 }: IModalProps) {
-  const [open, setOpen] = useState<boolean>(defaultOpen)
+  const [open, setOpen] = useState<boolean>(false)
+
+  useEffect(() => {
+    setOpen(defaultOpen)
+  }, [defaultOpen])
+
+  function handleOpenChange(newOpen: boolean) {
+    setOpen(newOpen)
+    formik.resetForm()
+    if (!newOpen) onCancel()
+  }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button className='!bg-primary-1'>+ Add</Button>
       </DialogTrigger>
@@ -93,10 +105,7 @@ export function FormModal({
               <DialogClose asChild>
                 <Button
                   className='!bg-danger-1'
-                  onClick={() => {
-                    formik.resetForm()
-                    setOpen(!open)
-                  }}
+                  onClick={() => handleOpenChange(false)}
                 >
                   {cancelText}
                 </Button>
