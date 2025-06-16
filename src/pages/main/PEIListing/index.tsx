@@ -76,8 +76,7 @@ function PEIListingPage() {
   // }, [state?.draft, draftPEI])
 
   useEffect(() => {
-    setActionType(state.actionType)
-
+    setActionType(state?.actionType)
     if (
       state?.actionType === undefined ||
       state.actionType === ActionTypes.RELATIONSHIP
