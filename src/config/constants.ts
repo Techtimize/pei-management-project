@@ -29,3 +29,22 @@ export const companies: ICompany[] = [
   { value: 'local', label: 'Local', isUS: false },
   { value: 'subsidiary', label: 'Subsidiary', isUS: false }
 ]
+
+export const peiFormTexts = {
+  add: {
+    title: 'Add PEI',
+    description: 'Create a new PEI company from scratch'
+  },
+  view: {
+    title: 'View PEI',
+    description: 'View details of a PEI company'
+  },
+  edit: {
+    title: 'Edit PEI',
+    description: 'Edit an existing PEI company'
+  },
+  draft: {
+    title: 'Draft PEI',
+    description: 'Resume working on PEI company saved as draft'
+  }
+}
