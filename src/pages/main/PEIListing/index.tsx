@@ -10,6 +10,7 @@ import { setPeiDraft } from '@/store/reducers/draftSlice'
 import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
 import { useLocation, useNavigate } from 'react-router'
 import { PEIData } from '@/config/stub'
+import { peiFormTexts } from '@/config/constants'
 
 function PEIListingPage() {
   const [data, setData] = useState<IPeiFields[]>([])
@@ -75,10 +76,16 @@ function PEIListingPage() {
   // }, [state?.draft, draftPEI])
 
   useEffect(() => {
-    if (state.actionType === ActionTypes.CLOSE) setDefaultFormOpen(false)
+    setActionType(state.actionType)
+
+    if (
+      state?.actionType === undefined ||
+      state.actionType === ActionTypes.RELATIONSHIP
+    )
+      return
+    else if (state.actionType === ActionTypes.CLOSE) setDefaultFormOpen(false)
     else if (state.actionType === ActionTypes.DRAFT && draftPEI) {
       setDefaultFormOpen(true)
-      setActionType(state.actionType)
       formik.setValues({
         pb_id: draftPEI.pb_id,
         swift_client_number: draftPEI?.swift_client_number,
@@ -99,9 +106,9 @@ function PEIListingPage() {
       })
     } else {
       const foundIndex = data.findIndex((d) => d.pb_id === state.pb_id)
-      if (foundIndex !== -1 && state.actionType !== ActionTypes.RELATIONSHIP) {
+      console.log('🚀 ~ useEffect ~ foundIndex:', foundIndex)
+      if (foundIndex !== -1) {
         setDefaultFormOpen(true)
-        setActionType(state.actionType)
         formik.setValues({
           pb_id: data[foundIndex].pb_id,
           swift_client_number: data[foundIndex].swift_client_number,
@@ -149,8 +156,24 @@ function PEIListingPage() {
     <div className='w-full py-2 px-2 space-y-2'>
       <div className='w-full flex justify-end'>
         <FormModal
-          title='Add PEI'
-          description='Create a new PEI company from scratch'
+          title={
+            actionType === ActionTypes.VIEW
+              ? peiFormTexts.view.title
+              : actionType === ActionTypes.EDIT
+              ? peiFormTexts.edit.title
+              : actionType === ActionTypes.DRAFT
+              ? peiFormTexts.draft.title
+              : peiFormTexts.add.title
+          }
+          description={
+            actionType === ActionTypes.VIEW
+              ? peiFormTexts.view.description
+              : actionType === ActionTypes.EDIT
+              ? peiFormTexts.edit.description
+              : actionType === ActionTypes.DRAFT
+              ? peiFormTexts.draft.description
+              : peiFormTexts.add.description
+          }
           formik={formik}
           onDraft={handleDraft}
           defaultOpen={defaultFormOpen}
