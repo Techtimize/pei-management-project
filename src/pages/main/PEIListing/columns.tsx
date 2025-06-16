@@ -1,8 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTableCommon } from '@/components/dataTable/common'
+import { ActionTypes } from '@/components/dataTable/types'
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
+
 export interface ICompany {
   id: string
   company: string
@@ -16,10 +18,25 @@ export interface ICompany {
 
 const dataTableCommon = new DataTableCommon<ICompany>()
 
+function handleView(id: string, type: ActionTypes) {
+  console.log(`View ${id} with type ${type}`)
+}
+
+function handleEdit(id: string, type: ActionTypes) {
+  console.log(`View ${id} with type ${type}`)
+}
+
+function handleRelationship(id: string, type: ActionTypes) {
+  console.log(`View ${id} with type ${type}`)
+}
+
 export const columns: ColumnDef<ICompany>[] = [
   {
     header: '#',
     cell: dataTableCommon.indexCell
+  },
+  {
+    accessorKey: 'id'
   },
   {
     accessorKey: 'company',
@@ -72,5 +89,16 @@ export const columns: ColumnDef<ICompany>[] = [
     header: ({ column }) =>
       dataTableCommon.styledHeader('Color', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
+  },
+  {
+    accessorKey: 'actions',
+    header: () => dataTableCommon.centerHeader('Actions'),
+    cell: (ctx) =>
+      dataTableCommon.actionCell(
+        ctx,
+        handleView,
+        handleEdit,
+        handleRelationship
+      )
   }
 ]

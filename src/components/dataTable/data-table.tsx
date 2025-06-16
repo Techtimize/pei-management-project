@@ -1,7 +1,6 @@
 'use client'
 
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -18,11 +17,7 @@ import {
 } from '@/components/ui/table'
 // import { Button } from '@/components/ui/button'
 import { DataTablePagination } from './data-table-pagination'
-
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-}
+import { DataTableProps } from './types'
 
 export function DataTable<TData, TValue>({
   columns,

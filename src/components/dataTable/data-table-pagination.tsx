@@ -1,4 +1,3 @@
-import { Table } from '@tanstack/react-table'
 import {
   ChevronLeft,
   ChevronRight,
@@ -14,11 +13,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-
-interface DataTablePaginationProps<TData> {
-  table: Table<TData>
-  showSelectedRowsText?: boolean
-}
+import { DataTablePaginationProps } from './types'
 
 export function DataTablePagination<TData>({
   table,
