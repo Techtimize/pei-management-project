@@ -49,10 +49,14 @@ function MainLayout() {
         id='main-container'
       >
         <div
-          className={`flex flex-col justify-center items-center transition-all duration-300 ease-in-out ${
+          className={`flex flex-col justify-center items-center transition-all duration-300 ease-in-out${
             layout === 'desktop' ? '' : 'fixed left-0 top-0 h-screen z-30'
           } ${
-            showSidebar ? (layout === 'desktop' ? 'w-1/5' : 'w-2/5') : 'w-0'
+            showSidebar
+              ? layout === 'desktop'
+                ? 'w-1/6 2xl:w-1/7'
+                : 'w-2/5'
+              : 'w-0 2xl:w-0'
           }`}
           id='side-bar'
         >
@@ -64,12 +68,12 @@ function MainLayout() {
         </div>
         <div
           className={`flex flex-col h-[100vh] transition-all duration-300 ease-in-out ${
-            showSidebar && layout === 'desktop' ? 'w-4/5' : 'w-screen'
+            showSidebar && layout === 'desktop' ? 'w-5/6 2xl:w-6/7' : 'w-screen'
           }`}
           id='main-layout'
         >
           <TopBar toggleSidebar={toggleSidebar} layout={layout} />
-          <div className='h-7/8 w-full overflow-y-auto bg-tertiary-3'>
+          <div className='h-7/8 2xl:h-11/12 w-full overflow-y-auto bg-tertiary-3'>
             <Outlet />
           </div>
         </div>

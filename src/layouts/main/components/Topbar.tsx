@@ -55,7 +55,11 @@ const TopBar = ({ toggleSidebar, layout }: ITopBarProps) => {
   return (
     <div
       className={`${
-        layout === 'desktop' ? 'h-1/8' : !showMobileMenu ? 'h-1/10' : 'h-1/4'
+        layout === 'desktop'
+          ? 'h-1/8 2xl:h-1/12'
+          : !showMobileMenu
+          ? 'h-1/10'
+          : 'h-1/4'
       } w-full flex flex-col md:flex-row items-center justify-between px-4 md:px-6 py-4 shadow-sm bg-tertiary-1`}
     >
       <div className='w-full h-full md:w-52 flex items-center justify-between md:justify-start gap-4 z-50'>

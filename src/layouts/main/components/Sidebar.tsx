@@ -26,12 +26,12 @@ const Sidebar = ({
 
   return (
     <div className='relative top-0 left-0 flex flex-col justify-center w-[100%] h-screen bg-tertiary-1 text-white'>
-      <div className='h-1/4 flex justify-center items-center'>
-        <img src='/logo.png' alt='deloitte-logo' className='h-[100px]' />
+      <div className='h-1/5 flex justify-center items-center'>
+        <img src='/logo.png' alt='deloitte-logo' className='h-[100%]' />
       </div>
-      <div className='h-3/4 space-y-10'>
+      <div className='h-4/5 space-y-10'>
         <nav>
-          <ul className='space-y-2'>
+          <ul className='space-y-2 text-lg 2xl:text-xl'>
             {mainRoutes.map((route) =>
               (moduleType === ModuleTypeEnum.USPE && route.isUs) ||
               moduleType === ModuleTypeEnum.GPE ? (

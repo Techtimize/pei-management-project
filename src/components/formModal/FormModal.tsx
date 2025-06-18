@@ -33,6 +33,9 @@ interface IModalProps {
   showRelationship?: boolean
   relationshipText?: string
   onRelationship?: (values: string) => void
+  showReset?: boolean
+  resetText?: string
+  onReset?: () => void
 }
 
 export function FormModal({
@@ -52,7 +55,10 @@ export function FormModal({
   onDraft = () => null,
   showRelationship = false,
   relationshipText = 'Manage Relationship',
-  onRelationship = () => null
+  onRelationship = () => null,
+  showReset = true,
+  resetText = 'Reset',
+  onReset = () => null
 }: IModalProps) {
   const [open, setOpen] = useState<boolean>(false)
 
@@ -97,7 +103,18 @@ export function FormModal({
           </div>
         </div>
         <DialogFooter className='sm:justify-start md:justify-between'>
-          <div className='space-x-2'>
+          <div className='flex space-x-4'>
+            {!showReset && (
+              <Button
+                className='rounded !bg-transparent text-secondary-1 text-sm underline'
+                onClick={() => {
+                  onReset()
+                  formik.resetForm()
+                }}
+              >
+                {resetText}
+              </Button>
+            )}
             {showDraft && (
               <Button
                 className='!bg-tertiary-2 text-black text-sm'
