@@ -11,7 +11,8 @@ import {
   searchByOptions
 } from '@/config/constants'
 import { PEIData } from '@/config/stub'
-import { IPeiFields } from '../PEIListing/types'
+import { ActionTypes, IPeiFields } from '../PEIListing/types'
+import { useNavigate } from 'react-router'
 
 const selectStyle = {
   control: (styles: CSSObjectWithLabel) => ({
@@ -37,6 +38,8 @@ function Homepage() {
   const [filteredItems, setFilteredItems] = useState<IPeiFields[]>([])
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [isSearchFocused, setIsSearchFocused] = useState(false)
+
+  const navigate = useNavigate()
 
   const moduleType = useAppSelector((state) => state.module.moduleType)
 
@@ -86,9 +89,15 @@ function Homepage() {
                   key={item.pb_id}
                   className='px-4 py-3 hover:bg-tertiary-2 cursor-pointer border-b border-tertiary-2 last:border-b-0'
                   onMouseDown={() => {
-                    setFilteredItems([])
-                    setSearchTerm(item[searchByValue.value as keyof IPeiFields])
-                    setIsSearchFocused(false)
+                    // setFilteredItems([])
+                    // setSearchTerm(item[searchByValue.value as keyof IPeiFields])
+                    // setIsSearchFocused(false)
+                    navigate(`/${companyValue.value}-companies`, {
+                      state: {
+                        actionType: ActionTypes.SEARCH,
+                        pb_id: item.pb_id
+                      }
+                    })
                   }}
                 >
                   {searchByValue.value !== 'pb_name' && (

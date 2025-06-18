@@ -15,4 +15,5 @@ export interface DataTablePaginationProps<TData> {
 export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  highlightedItem?: string
 }

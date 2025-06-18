@@ -22,5 +22,6 @@ export enum ActionTypes {
   EDIT,
   RELATIONSHIP,
   DRAFT,
-  CLOSE
+  CLOSE,
+  SEARCH
 }
