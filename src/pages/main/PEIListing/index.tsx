@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { columns } from './columns'
 import { DataTable } from '../../../components/dataTable/data-table'
 import { FormModal } from '@/components/formModal/FormModal'
@@ -18,6 +18,8 @@ function PEIListingPage() {
   const [actionType, setActionType] = useState<ActionTypes | undefined>()
   const [highlightedItem, setHighlightedItem] = useState<string | undefined>()
 
+  const formRef = useRef<HTMLFormElement | null>(null)
+
   const { state } = useLocation()
   const navigate = useNavigate()
 
@@ -25,22 +27,24 @@ function PEIListingPage() {
   const dispatch = useAppDispatch()
 
   const validationSchema = object().shape({
-    pb_id: string().required(),
-    swift_client_number: string().required(),
-    swift_client_name: string().required(),
-    gmdm_id: string().required(),
-    dgmf_id: string().required(),
-    duns_number: string().required(),
-    view_type: string().required(),
-    tableau_inclusion_status: string().required(),
-    requested_by_team: string().required(),
-    contact_email: string().required().email(),
-    priority_for_feedback: string().required(),
-    fy_period_added: string().required(),
-    reporting_team: string().required(),
-    gmdm_legal_name: string().required(),
-    pb_name: string().required(),
-    sources: string().required()
+    pb_id: string().required().label('Pitchbook ID'),
+    swift_client_number: string().required().label('Swift Client Number'),
+    swift_client_name: string().required().label('Swift Client Name'),
+    gmdm_id: string().required().label('GMDM ID'),
+    dgmf_id: string().required().label('DGMF ID'),
+    duns_number: string().required().label('DUNS Number'),
+    view_type: string().required().label('View Type'),
+    tableau_inclusion_status: string()
+      .required()
+      .label('Tableau Inclusion Status'),
+    requested_by_team: string().required().label('Requested By Team'),
+    contact_email: string().required().email().label('Contact Email'),
+    priority_for_feedback: string().required().label('Priority for Feedback'),
+    fy_period_added: string().required().label('FY Period Added'),
+    reporting_team: string().required().label('Reporting Team'),
+    gmdm_legal_name: string().required().label('GMDM Legal Name'),
+    pb_name: string().required().label('Pitchbook Name'),
+    sources: string().required().label('Sources')
   })
 
   const formik = useFormik<IPeiFields>({
@@ -157,9 +161,12 @@ function PEIListingPage() {
     console.log('🚀 ~ handleSubmit ~ values:', values)
     navigate('/pei-companies', { state: { actionType: ActionTypes.CLOSE } })
   }
+  const handleReset = () => {
+    formRef.current?.scroll({ top: 0, behavior: 'smooth' })
+  }
 
   return (
-    <div className='w-full py-2 px-2 space-y-2'>
+    <div className='h-full w-full py-2 px-2 space-y-2'>
       {/* <RelationshipFormModal /> */}
 
       <div className='w-full flex justify-end'>
@@ -170,6 +177,7 @@ function PEIListingPage() {
           onCancel={handleCancel}
           onRelationship={handleRelationship}
           onSubmit={handleSubmit}
+          onReset={handleReset}
           title={
             actionType === ActionTypes.VIEW || actionType === ActionTypes.SEARCH
               ? peiFormTexts.view.title
@@ -210,9 +218,15 @@ function PEIListingPage() {
           showRelationship={
             actionType === ActionTypes.VIEW || actionType === ActionTypes.SEARCH
           }
+          showReset={
+            actionType === ActionTypes.VIEW || actionType === ActionTypes.SEARCH
+          }
         >
           <AddForm
             formik={formik}
+            formRefSetter={(ref: React.RefObject<HTMLFormElement | null>) =>
+              (formRef.current = ref.current)
+            }
             disabled={
               actionType === ActionTypes.VIEW ||
               actionType === ActionTypes.SEARCH
