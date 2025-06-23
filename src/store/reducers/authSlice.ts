@@ -9,7 +9,7 @@ interface IAuthSlice {
 }
 
 const initialState: IAuthSlice = {
-  isLoggedIn: !!localStorage.getItem('token')?.length,
+  isLoggedIn: !!localStorage.getItem('access_token')?.length,
   role: 0,
   name: 'Furqan',
   preferences: {}
