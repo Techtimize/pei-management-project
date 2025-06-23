@@ -5,4 +5,4 @@ $config = @{
   VITE_AZURE_TENANT_ID = $env:VITE_AZURE_TENANT_ID
   VITE_AZURE_CLIENT_ID = $env:VITE_AZURE_CLIENT_ID
 }
-$config | ConvertTo-Json | Set-Content -Encoding UTF8 "$env:HOME\site\wwwroot\config.json"
+$config | ConvertTo-Json -Depth 10 | Set-Content -Encoding UTF8 "$env:HOME\site\wwwroot\config.json"
