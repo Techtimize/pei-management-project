@@ -3,8 +3,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router'
 import './App.css'
 import MainLayout from './layouts/main/Layout'
 import AuthLayout from './layouts/auth/Layout'
-import Login from './pages/auth/Login'
-import { mainRoutes } from './config/routes'
+import { mainRoutes, publicRoutes } from './config/routes'
 import { useAppSelector } from './hooks/storeHooks'
 import { ModuleTypeEnum } from './store/reducers/moduleSlice'
 
@@ -24,9 +23,14 @@ function App() {
 
   return (
     <Routes>
+      {/* Public Routes */}
       <Route path='/auth' element={<AuthLayout />}>
-        <Route path='login' element={<Login />} />
+        {publicRoutes.map((route) => (
+          <Route key={route.path} path={route.path} element={route.element} />
+        ))}
       </Route>
+
+      {/* Protected Routes*/}
       <Route path='/' element={<MainLayout />}>
         {mainRoutes.map((route) =>
           (moduleType === ModuleTypeEnum.USPE && route.isUs) ||

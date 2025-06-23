@@ -47,8 +47,8 @@ const TopBar = ({ toggleSidebar, layout }: ITopBarProps) => {
   }, [])
 
   const handleLogout = () => {
-    console.log('Logging out...')
-    localStorage.removeItem('token')
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('refresh_token')
     dispatch(logout())
   }
 
