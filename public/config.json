@@ -1,0 +1,7 @@
+{
+  "VITE_GPE_ENABLED": "runtime_placeholder",
+  "VITE_API_URL": "runtime_placeholder",
+  "VITE_APP_URL": "runtime_placeholder",
+  "VITE_AZURE_TENANT_ID": "runtime_placeholder",
+  "VITE_AZURE_CLIENT_ID": "runtime_placeholder"
+}
