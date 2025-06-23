@@ -1,29 +1,15 @@
 import React, { useEffect } from 'react'
-import { Formik, FormikHelpers } from 'formik'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { object, string } from 'yup'
 import ModuleSelector from '@/components/moduleSelector/ModuleSelector'
 import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
 import { ModuleTypeEnum, setModuleType } from '@/store/reducers/moduleSlice'
-import { login } from '@/store/reducers/authSlice'
 import { useNavigate } from 'react-router'
-
-interface ILoginFormFields {
-  email: string
-  password: string
-}
+import { conf } from '@/config'
 
 function Login() {
   const moduleType = useAppSelector((state) => state.module.moduleType)
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-
-  const loginSchema = object().shape({
-    email: string().required().email(),
-    password: string().required().min(8)
-  })
 
   useEffect(() => {
     if (isLoggedIn) navigate('/')
@@ -33,15 +19,23 @@ function Login() {
     dispatch(setModuleType(moduleType))
   }
 
-  function handleSubmit(
-    values: ILoginFormFields,
-    helpers: FormikHelpers<ILoginFormFields>
-  ) {
-    console.log('🚀 ~ Login ~ values:', values)
-    helpers.setSubmitting(false)
-    dispatch(login())
-    localStorage.setItem('token', 'dummy-token')
-    navigate('/', { replace: true })
+  function handleMicrosoftLogin() {
+    // Implement Microsoft OAuth login logic here
+    console.log('Microsoft login clicked')
+    const clientId = conf.AZURE_CLIENT_ID
+    const tenantId = conf.AZURE_TENANT_ID
+
+    const redirectUri = `${conf.APP_URL}/auth/callback`
+    const scope =
+      'openid profile email https://graph.microsoft.com/User.ReadBasic.All'
+    const authUrl =
+      `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize` +
+      `?client_id=${clientId}` +
+      `&response_type=token` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&scope=${encodeURIComponent(scope)}` +
+      `&response_mode=fragment`
+    window.location.href = authUrl
   }
 
   return (
@@ -56,78 +50,27 @@ function Login() {
         </h2>
       </div>
 
-      <Formik
-        initialValues={{
-          email: 'admin@deloitte.com',
-          password: 'deloitte@123'
-        }}
-        validationSchema={loginSchema}
-        onSubmit={handleSubmit}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting
-          /* and other goodies */
-        }) => (
-          <form
-            onSubmit={handleSubmit}
-            className='flex flex-col items-center w-2/7 mb-5 h-2/5'
+      <form className='flex flex-col items-center w-2/7 mb-5 h-2/5'>
+        <ModuleSelector
+          handleModuleChange={handleModuleChange}
+          moduleType={moduleType}
+        />
+
+        <div className='mt-4'>
+          <button
+            type='button'
+            onClick={handleMicrosoftLogin}
+            className='flex items-center justify-center gap-2 !bg-[#2F2F2F] !text-white px-4 py-2 rounded-md hover:bg-[#404040] transition-colors w-64'
           >
-            <div className='flex flex-col gap-1 w-full'>
-              <Label htmlFor='email'>Email</Label>
-              <Input
-                type='email'
-                name='email'
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-                placeholder='info@techtimize.com'
-                className='bg-white'
-              />
-              <p className='text-red-500 text-sm self-end'>
-                {errors.email && touched.email && errors.email}
-              </p>
-            </div>
-
-            <div className='flex flex-col gap-1 w-full'>
-              <Label htmlFor='password'>Password</Label>
-              <Input
-                type='password'
-                name='password'
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-                placeholder='12345678'
-                className='bg-white'
-              />
-              <p className='text-red-500 text-sm self-end'>
-                {errors.password && touched.password && errors.password}
-              </p>
-            </div>
-
-            <ModuleSelector
-              handleModuleChange={handleModuleChange}
-              moduleType={moduleType}
+            <img
+              src='/microsoft-logo.png'
+              alt='Microsoft'
+              className='w-5 h-5'
             />
-
-            <button type='submit' disabled={isSubmitting} className='w-64'>
-              Submit
-            </button>
-          </form>
-        )}
-      </Formik>
-
-      {/* NOT Needed at the moment */}
-      {/* <div className='mt-4 text-center'>
-        <a href='#' className='text-[#1890ff] hover:text-[#40a9ff]'>
-          Forgot password?
-        </a>
-      </div> */}
+            Sign in with Microsoft
+          </button>
+        </div>
+      </form>
     </div>
   )
 }

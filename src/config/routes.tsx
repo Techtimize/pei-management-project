@@ -1,8 +1,21 @@
+import Callback from '@/pages/auth/Callback'
+import Login from '@/pages/auth/Login'
 import Homepage from '@/pages/main/Homepage'
 import LocalListingPage from '@/pages/main/LocalListing'
 import PEIListingPage from '@/pages/main/PEIListing'
 import PortfolioListingPage from '@/pages/main/PortfolioListing'
 import SubsidiaryListingPage from '@/pages/main/SubsidiaryListing'
+
+export const publicRoutes = [
+  {
+    path: 'login',
+    element: <Login />
+  },
+  {
+    path: 'callback',
+    element: <Callback />
+  }
+]
 
 export const mainRoutes = [
   {
