@@ -1,11 +1,6 @@
 'use client'
 
-import {
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-  getPaginationRowModel
-} from '@tanstack/react-table'
+import { flexRender } from '@tanstack/react-table'
 
 import {
   Table,
@@ -19,18 +14,10 @@ import {
 import { DataTablePagination } from './data-table-pagination'
 import { DataTableProps } from './types'
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
+export function DataTable<TData>({
+  table,
   highlightedItem
-}: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel()
-  })
-
+}: DataTableProps<TData>) {
   return (
     <div className='2xl:h-[85%] pb-4'>
       <div className='2xl:h-full rounded-md border overflow-auto bg-white px-2'>
@@ -60,7 +47,8 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                   className={`${
-                    highlightedItem && highlightedItem === row.getValue('pb_id')
+                    highlightedItem &&
+                    highlightedItem === row.getValue('pei_pb_id')
                       ? 'bg-primary-1 text-white'
                       : index % 2 === 0
                       ? 'bg-[#eee]'
@@ -80,7 +68,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={table.getAllColumns().length}
                   className='h-24 text-center'
                 >
                   No results.
