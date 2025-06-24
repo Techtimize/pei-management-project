@@ -14,28 +14,28 @@ export const columns: ColumnDef<IPeiFields>[] = [
   },
 
   {
-    accessorKey: 'pb_id',
+    accessorKey: 'pei_pb_id',
     header: ({ column }) =>
       dataTableCommon.styledHeader('Pitchbook ID', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
 
   {
-    accessorKey: 'pb_name',
+    accessorKey: 'pei_pb_name',
     header: ({ column }) =>
       dataTableCommon.styledHeader('Pitchbook Name', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
 
   {
-    accessorKey: 'duns_number',
+    accessorKey: 'pei_duns_number',
     header: ({ column }) =>
       dataTableCommon.styledHeader('DUNS', column, '!bg-transparent'),
     cell: dataTableCommon.leftCell
   },
 
   {
-    accessorKey: 'swift_client_name',
+    accessorKey: 'pei_swift_client_name',
     header: ({ column }) =>
       dataTableCommon.styledHeader(
         'Swift Client Name',

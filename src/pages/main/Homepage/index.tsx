@@ -10,9 +10,9 @@ import {
   ISearchByOption,
   searchByOptions
 } from '@/config/constants'
-import { PEIData } from '@/config/stub'
 import { ActionTypes, IPeiFields } from '../PEIListing/types'
 import { useNavigate } from 'react-router'
+import { axiosInstance } from '@/config/axiosConfig'
 
 const selectStyle = {
   control: (styles: CSSObjectWithLabel) => ({
@@ -27,8 +27,6 @@ const selectStyle = {
     fontSize: '14px'
   })
 }
-
-const values = PEIData
 
 function Homepage() {
   const [companyValue, setCompanyValue] = useState<ICompany>(companies[0])
@@ -59,16 +57,20 @@ function Homepage() {
   }, [moduleType])
 
   useEffect(() => {
-    if (searchTerm === '') return
-    setFilteredItems(
-      values.filter((val) =>
-        val[searchByValue.value as keyof IPeiFields]
-          .toLowerCase()
-          .trim()
-          .includes(searchTerm.toLowerCase().trim())
-      )
-    )
-  }, [searchTerm, values, searchByValue])
+    if (searchTerm != '') searchCompany(searchByValue.value, searchTerm)
+  }, [searchTerm, searchByValue])
+
+  async function searchCompany(searchBy: string, searchTerm: string) {
+    const res = await axiosInstance.get('/pei-company/searchPieCompany', {
+      params: {
+        pageNo: 1,
+        limit: 10000,
+        searchField: `${searchBy}`,
+        searchText: searchTerm
+      }
+    })
+    if (res.status === 200) setFilteredItems(res.data.data)
+  }
 
   return (
     <div className='flex h-[100%] justify-center items-center p-4 md:px-10'>
@@ -82,34 +84,37 @@ function Homepage() {
             onFocus={() => setIsSearchFocused(true)}
             onBlur={() => setIsSearchFocused(false)}
           />
-          {searchTerm && isSearchFocused && !!filteredItems.length && (
-            <div className='absolute w-full bg-white border-2 border-gray-300 rounded-lg mt-2 max-h-[200px] overflow-y-auto z-10 text-start shadow-lg'>
-              {filteredItems.map((item) => (
-                <div
-                  key={item.pb_id}
-                  className='px-4 py-3 hover:bg-tertiary-2 cursor-pointer border-b border-tertiary-2 last:border-b-0'
-                  onMouseDown={() => {
-                    // setFilteredItems([])
-                    // setSearchTerm(item[searchByValue.value as keyof IPeiFields])
-                    // setIsSearchFocused(false)
-                    navigate(`/${companyValue.value}-companies`, {
-                      state: {
-                        actionType: ActionTypes.SEARCH,
-                        pb_id: item.pb_id
-                      }
-                    })
-                  }}
-                >
-                  {searchByValue.value !== 'pb_name' && (
-                    <span className='text-gray-500 text-sm mr-2'>
-                      {item[searchByValue.value as keyof IPeiFields]}
-                    </span>
-                  )}
-                  <span className=''>{item.pb_name}</span>
-                </div>
-              ))}
-            </div>
-          )}
+          {searchTerm &&
+            isSearchFocused &&
+            !!filteredItems &&
+            !!filteredItems.length && (
+              <div className='absolute w-full bg-white border-2 border-gray-300 rounded-lg mt-2 max-h-[200px] overflow-y-auto z-10 text-start shadow-lg'>
+                {filteredItems.map((item) => (
+                  <div
+                    key={item.pei_pb_id}
+                    className='px-4 py-3 hover:bg-tertiary-2 cursor-pointer border-b border-tertiary-2 last:border-b-0'
+                    onMouseDown={() => {
+                      // setFilteredItems([])
+                      // setSearchTerm(item[searchByValue.value as keyof IPeiFields])
+                      // setIsSearchFocused(false)
+                      navigate(`/${companyValue.value}-companies`, {
+                        state: {
+                          actionType: ActionTypes.SEARCH,
+                          pei_pb_id: item.pei_pb_id
+                        }
+                      })
+                    }}
+                  >
+                    {searchByValue.value !== 'pei_pb_name' && (
+                      <span className='text-gray-500 text-sm mr-2'>
+                        {item[searchByValue.value as keyof IPeiFields]}
+                      </span>
+                    )}
+                    <span className=''>{item.pei_pb_name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
         </div>
 
         <div className='w-full flex-1'>

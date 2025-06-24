@@ -5,12 +5,12 @@ export interface ISearchByOption {
 
 export const searchByOptions = [
   // PEI & Portfolio Options
-  { value: 'pb_name', label: 'Pitchbook Name' },
-  { value: 'duns_number', label: 'DUNS Number' },
-  { value: 'swift_client_number', label: 'Swift Client Number' },
-  { value: 'pb_id', label: 'Pitchbook ID' },
-  { value: 'gmdm_id', label: 'GMDM ID' },
-  { value: 'dgmf_id', label: 'DGMF ID' }
+  { value: 'pei_pb_name', label: 'Pitchbook Name' },
+  { value: 'pei_duns_number', label: 'DUNS Number' },
+  { value: 'pei_swift_client_number', label: 'Swift Client Number' },
+  { value: 'pei_pb_id', label: 'Pitchbook ID' },
+  { value: 'pei_gmdm_id', label: 'GMDM ID' },
+  { value: 'pei_dgmf_id', label: 'DGMF ID' }
 
   // Portfolio Options
   // { value: 'name', label: 'Name' },

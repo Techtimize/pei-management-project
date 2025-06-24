@@ -1,8 +1,13 @@
 import axios from 'axios'
 import { redirect } from 'react-router'
+import { conf } from '.'
+
+const axiosInstance = axios.create({
+  baseURL: conf.API_URL
+})
 
 // Add a request interceptor
-axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('access_token')
     if (token) {
@@ -16,7 +21,7 @@ axios.interceptors.request.use(
   }
 )
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => {
     return response
   },
@@ -33,19 +38,21 @@ axios.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
       const refreshToken = localStorage.getItem('refresh_token')
-      return axios
+      return axiosInstance
         .post('/auth/token', {
           refresh_token: refreshToken
         })
         .then((res) => {
           if (res.status === 201) {
             localStorage.setItem('access_token', res.data.access_token)
-            axios.defaults.headers.common['Authorization'] =
+            axiosInstance.defaults.headers.common['Authorization'] =
               'Bearer ' + localStorage.getItem('access_token')
-            return axios(originalRequest)
+            return axiosInstance(originalRequest)
           }
         })
     }
     return Promise.reject(error)
   }
 )
+
+export { axiosInstance }
