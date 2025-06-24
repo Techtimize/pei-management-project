@@ -9,8 +9,13 @@ import { ActionTypes, IPeiFields } from './types'
 import { setPeiDraft } from '@/store/reducers/draftSlice'
 import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
 import { useLocation, useNavigate } from 'react-router'
-import { PEIData } from '@/config/stub'
 import { peiFormTexts } from '@/config/constants'
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable
+} from '@tanstack/react-table'
+import { axiosInstance } from '@/config/axiosConfig'
 
 function PEIListingPage() {
   const [data, setData] = useState<IPeiFields[]>([])
@@ -26,13 +31,20 @@ function PEIListingPage() {
   const draftPEI = useAppSelector((state) => state.draft.pei)
   const dispatch = useAppDispatch()
 
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel()
+  })
+
   const validationSchema = object().shape({
-    pb_id: string().required().label('Pitchbook ID'),
-    swift_client_number: string().required().label('Swift Client Number'),
-    swift_client_name: string().required().label('Swift Client Name'),
-    gmdm_id: string().required().label('GMDM ID'),
-    dgmf_id: string().required().label('DGMF ID'),
-    duns_number: string().required().label('DUNS Number'),
+    pei_pb_id: string().required().label('Pitchbook ID'),
+    pei_swift_client_number: string().required().label('Swift Client Number'),
+    pei_swift_client_name: string().required().label('Swift Client Name'),
+    pei_gmdm_id: string().required().label('GMDM ID'),
+    pei_dgmf_id: string().required().label('DGMF ID'),
+    pei_duns_number: string().required().label('DUNS Number'),
     view_type: string().required().label('View Type'),
     tableau_inclusion_status: string()
       .required()
@@ -42,19 +54,19 @@ function PEIListingPage() {
     priority_for_feedback: string().required().label('Priority for Feedback'),
     fy_period_added: string().required().label('FY Period Added'),
     reporting_team: string().required().label('Reporting Team'),
-    gmdm_legal_name: string().required().label('GMDM Legal Name'),
-    pb_name: string().required().label('Pitchbook Name'),
+    pei_gmdm_legal_name: string().required().label('GMDM Legal Name'),
+    pei_pb_name: string().required().label('Pitchbook Name'),
     sources: string().required().label('Sources')
   })
 
   const formik = useFormik<IPeiFields>({
     initialValues: {
-      pb_id: '',
-      swift_client_number: '',
-      swift_client_name: '',
-      gmdm_id: '',
-      dgmf_id: '',
-      duns_number: '',
+      pei_pb_id: '',
+      pei_swift_client_number: '',
+      pei_swift_client_name: '',
+      pei_gmdm_id: '',
+      pei_dgmf_id: '',
+      pei_duns_number: '',
       view_type: '',
       tableau_inclusion_status: '',
       requested_by_team: '',
@@ -62,8 +74,8 @@ function PEIListingPage() {
       priority_for_feedback: '',
       fy_period_added: '',
       reporting_team: '',
-      gmdm_legal_name: '',
-      pb_name: '',
+      pei_gmdm_legal_name: '',
+      pei_pb_name: '',
       sources: ''
     },
     onSubmit: async (values) => {
@@ -91,12 +103,12 @@ function PEIListingPage() {
     else if (state.actionType === ActionTypes.DRAFT && draftPEI) {
       setDefaultFormOpen(true)
       formik.setValues({
-        pb_id: draftPEI.pb_id,
-        swift_client_number: draftPEI?.swift_client_number,
-        swift_client_name: draftPEI?.swift_client_name,
-        gmdm_id: draftPEI?.gmdm_id,
-        dgmf_id: draftPEI?.dgmf_id,
-        duns_number: draftPEI?.duns_number,
+        pei_pb_id: draftPEI.pei_pb_id,
+        pei_swift_client_number: draftPEI?.pei_swift_client_number,
+        pei_swift_client_name: draftPEI?.pei_swift_client_name,
+        pei_gmdm_id: draftPEI?.pei_gmdm_id,
+        pei_dgmf_id: draftPEI?.pei_dgmf_id,
+        pei_duns_number: draftPEI?.pei_duns_number,
         view_type: draftPEI?.view_type,
         tableau_inclusion_status: draftPEI?.tableau_inclusion_status,
         requested_by_team: draftPEI?.requested_by_team,
@@ -104,23 +116,23 @@ function PEIListingPage() {
         priority_for_feedback: draftPEI?.priority_for_feedback,
         fy_period_added: draftPEI?.fy_period_added,
         reporting_team: draftPEI?.reporting_team,
-        gmdm_legal_name: draftPEI?.gmdm_legal_name,
-        pb_name: draftPEI?.pb_name,
+        pei_gmdm_legal_name: draftPEI?.pei_gmdm_legal_name,
+        pei_pb_name: draftPEI?.pei_pb_name,
         sources: draftPEI?.sources
       })
     } else {
-      const foundIndex = data.findIndex((d) => d.pb_id === state.pb_id)
+      const foundIndex = data.findIndex((d) => d.pei_pb_id === state.pei_pb_id)
       if (state.actionType === ActionTypes.SEARCH)
-        setHighlightedItem(state.pb_id)
+        setHighlightedItem(state.pei_pb_id)
       if (foundIndex !== -1) {
         setDefaultFormOpen(true)
         formik.setValues({
-          pb_id: data[foundIndex].pb_id,
-          swift_client_number: data[foundIndex].swift_client_number,
-          swift_client_name: data[foundIndex].swift_client_name,
-          gmdm_id: data[foundIndex].gmdm_id,
-          dgmf_id: data[foundIndex].dgmf_id,
-          duns_number: data[foundIndex].duns_number,
+          pei_pb_id: data[foundIndex].pei_pb_id,
+          pei_swift_client_number: data[foundIndex].pei_swift_client_number,
+          pei_swift_client_name: data[foundIndex].pei_swift_client_name,
+          pei_gmdm_id: data[foundIndex].pei_gmdm_id,
+          pei_dgmf_id: data[foundIndex].pei_dgmf_id,
+          pei_duns_number: data[foundIndex].pei_duns_number,
           view_type: data[foundIndex].view_type,
           tableau_inclusion_status: data[foundIndex].tableau_inclusion_status,
           requested_by_team: data[foundIndex].requested_by_team,
@@ -128,13 +140,13 @@ function PEIListingPage() {
           priority_for_feedback: data[foundIndex].priority_for_feedback,
           fy_period_added: data[foundIndex].fy_period_added,
           reporting_team: data[foundIndex].reporting_team,
-          gmdm_legal_name: data[foundIndex].gmdm_legal_name,
-          pb_name: data[foundIndex].pb_name,
+          pei_gmdm_legal_name: data[foundIndex].pei_gmdm_legal_name,
+          pei_pb_name: data[foundIndex].pei_pb_name,
           sources: data[foundIndex].sources
         })
       }
     }
-  }, [state?.pb_id, state?.actionType, data, draftPEI])
+  }, [state?.pei_pb_id, state?.actionType, data, draftPEI])
 
   useEffect(() => {
     getData()
@@ -142,7 +154,13 @@ function PEIListingPage() {
 
   async function getData() {
     // Fetch data from your API here.
-    setData(PEIData)
+    const res = await axiosInstance.get('/pei-company/searchPieCompany', {
+      params: {
+        pageNo: 1,
+        limit: table.getState().pagination.pageSize ?? 10
+      }
+    })
+    if (res.status === 200) setData(res.data.data)
   }
 
   async function handleDraft(values: IPeiFields) {
@@ -236,9 +254,10 @@ function PEIListingPage() {
       </div>
 
       <DataTable
-        columns={columns}
-        data={data}
+        // columns={columns}
+        // data={data}
         highlightedItem={highlightedItem}
+        table={table}
       />
     </div>
   )

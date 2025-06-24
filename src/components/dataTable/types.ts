@@ -1,4 +1,4 @@
-import { Column, ColumnDef, Table } from '@tanstack/react-table'
+import { Column, Table } from '@tanstack/react-table'
 
 export interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -12,8 +12,7 @@ export interface DataTablePaginationProps<TData> {
   showSelectedRowsText?: boolean
 }
 
-export interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+export interface DataTableProps<T> {
+  table: Table<T>
   highlightedItem?: string
 }

@@ -29,7 +29,7 @@ export class DataTableCommon<T> {
         <Link
           to={route}
           state={{
-            pb_id: row.row.getValue('pb_id'),
+            pei_pb_id: row.row.getValue('pei_pb_id'),
             actionType: ActionTypes.VIEW
           }}
         >
@@ -51,7 +51,7 @@ export class DataTableCommon<T> {
         <Link
           to={route}
           state={{
-            pb_id: row.row.getValue('pb_id'),
+            pei_pb_id: row.row.getValue('pei_pb_id'),
             actionType: ActionTypes.EDIT
           }}
         >
@@ -73,7 +73,7 @@ export class DataTableCommon<T> {
         <Link
           to={route}
           state={{
-            pb_id: row.row.getValue('pb_id'),
+            pei_pb_id: row.row.getValue('pei_pb_id'),
             actionType: ActionTypes.RELATIONSHIP
           }}
         >

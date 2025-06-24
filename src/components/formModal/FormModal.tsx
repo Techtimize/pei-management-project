@@ -132,7 +132,7 @@ export function FormModal({
                 className='!bg-secondary-1 text-black text-sm'
                 type='submit'
                 onClick={() => {
-                  onRelationship(formik.values.pb_id)
+                  onRelationship(formik.values.pei_pb_id)
                   resetAndClose()
                 }}
                 disabled

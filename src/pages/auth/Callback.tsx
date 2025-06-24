@@ -1,9 +1,9 @@
-import { conf } from '@/config'
+import { axiosInstance } from '@/config/axiosConfig'
 import { useAppDispatch } from '@/hooks/storeHooks'
 import { login } from '@/store/reducers/authSlice'
-import axios from 'axios'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
+import Spinner from '@/components/ui/spinner'
 
 function Callback() {
   const navigate = useNavigate()
@@ -22,9 +22,10 @@ function Callback() {
     }
   }, [])
 
-  async function verifyToken(token: string) {
+  async function verifyToken(token?: string) {
     try {
-      const res = await axios.post(`${conf.API_URL}/auth/login`, {
+      if (!token) return
+      const res = await axiosInstance.post(`/auth/login`, {
         access_token: token
       })
       if (res.status === 200 || res.status === 201) {
@@ -39,7 +40,11 @@ function Callback() {
     }
   }
 
-  return <div>Callback</div>
+  return (
+    <div className='h-screen flex items-center justify-center'>
+      <Spinner size='lg' />
+    </div>
+  )
 }
 
 export default Callback

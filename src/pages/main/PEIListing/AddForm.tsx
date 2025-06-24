@@ -24,147 +24,149 @@ function AddForm({ formik, disabled = false, formRefSetter }: IAddFormProps) {
     >
       <div className='grid grid-cols-1 2xl:grid-cols-2 gap-3 w-full'>
         <div className='flex flex-col gap-3'>
-          <Label htmlFor='pb_id' className='text-white'>
+          <Label htmlFor='pei_pb_id' className='text-white'>
             Pitchbook ID
           </Label>
           <Input
             type='text'
-            name='pb_id'
+            name='pei_pb_id'
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.pb_id}
+            value={formik.values.pei_pb_id}
             placeholder='00000000'
             className='bg-white'
             disabled={disabled}
           />
           <p className='text-danger-2 text-sm self-end'>
-            {formik.errors.pb_id && formik.touched.pb_id && formik.errors.pb_id}
+            {formik.errors.pei_pb_id &&
+              formik.touched.pei_pb_id &&
+              formik.errors.pei_pb_id}
           </p>
         </div>
 
         <div className='flex flex-col gap-3'>
-          <Label className='text-white' htmlFor='swift_client_number'>
+          <Label className='text-white' htmlFor='pei_swift_client_number'>
             Swift Client Number
           </Label>
           <Input
             type='text'
-            name='swift_client_number'
+            name='pei_swift_client_number'
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.swift_client_number}
+            value={formik.values.pei_swift_client_number}
             placeholder='00000000'
             className='bg-white'
             disabled={disabled}
           />
           <p className='text-danger-2 text-sm self-end'>
-            {formik.errors.swift_client_number &&
-              formik.touched.swift_client_number &&
-              formik.errors.swift_client_number}
+            {formik.errors.pei_swift_client_number &&
+              formik.touched.pei_swift_client_number &&
+              formik.errors.pei_swift_client_number}
           </p>
         </div>
 
         <div className='flex flex-col gap-3'>
-          <Label className='text-white' htmlFor='gmdm_id'>
+          <Label className='text-white' htmlFor='pei_gmdm_id'>
             GMDM ID
           </Label>
           <Input
             type='text'
-            name='gmdm_id'
+            name='pei_gmdm_id'
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.gmdm_id}
+            value={formik.values.pei_gmdm_id}
             placeholder='00000000'
             className='bg-white'
             disabled={disabled}
           />
           <p className='text-danger-2 text-sm self-end'>
-            {formik.errors.gmdm_id &&
-              formik.touched.gmdm_id &&
-              formik.errors.gmdm_id}
+            {formik.errors.pei_gmdm_id &&
+              formik.touched.pei_gmdm_id &&
+              formik.errors.pei_gmdm_id}
           </p>
         </div>
 
         <div className='flex flex-col gap-3'>
-          <Label className='text-white' htmlFor='dgmf_id'>
+          <Label className='text-white' htmlFor='pei_dgmf_id'>
             DGMF ID
           </Label>
           <Input
             type='text'
-            name='dgmf_id'
+            name='pei_dgmf_id'
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.dgmf_id}
+            value={formik.values.pei_dgmf_id}
             placeholder='00000000'
             className='bg-white'
             disabled={disabled}
           />
           <p className='text-danger-2 text-sm self-end'>
-            {formik.errors.dgmf_id &&
-              formik.touched.dgmf_id &&
-              formik.errors.dgmf_id}
+            {formik.errors.pei_dgmf_id &&
+              formik.touched.pei_dgmf_id &&
+              formik.errors.pei_dgmf_id}
           </p>
         </div>
 
         <div className='flex flex-col gap-3'>
-          <Label className='text-white' htmlFor='duns_number'>
+          <Label className='text-white' htmlFor='pei_duns_number'>
             DUNS
           </Label>
           <Input
             type='text'
-            name='duns_number'
+            name='pei_duns_number'
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.duns_number}
+            value={formik.values.pei_duns_number}
             placeholder='00000000'
             className='bg-white'
             disabled={disabled}
           />
           <p className='text-danger-2 text-sm self-end'>
-            {formik.errors.duns_number &&
-              formik.touched.duns_number &&
-              formik.errors.duns_number}
+            {formik.errors.pei_duns_number &&
+              formik.touched.pei_duns_number &&
+              formik.errors.pei_duns_number}
           </p>
         </div>
 
         <div className='flex flex-col gap-3'>
-          <Label className='text-white' htmlFor='swift_client_name'>
+          <Label className='text-white' htmlFor='pei_swift_client_name'>
             Swift Client Name
           </Label>
           <Input
             type='text'
-            name='swift_client_name'
+            name='pei_swift_client_name'
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.swift_client_name}
+            value={formik.values.pei_swift_client_name}
             placeholder='00000000'
             className='bg-white'
             disabled={disabled}
           />
           <p className='text-danger-2 text-sm self-end'>
-            {formik.errors.swift_client_name &&
-              formik.touched.swift_client_name &&
-              formik.errors.swift_client_name}
+            {formik.errors.pei_swift_client_name &&
+              formik.touched.pei_swift_client_name &&
+              formik.errors.pei_swift_client_name}
           </p>
         </div>
 
         <div className='flex flex-col gap-3'>
-          <Label className='text-white' htmlFor='gmdm_legal_name'>
+          <Label className='text-white' htmlFor='pei_gmdm_legal_name'>
             GMDM Legal Name
           </Label>
           <Input
             type='text'
-            name='gmdm_legal_name'
+            name='pei_gmdm_legal_name'
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.gmdm_legal_name}
+            value={formik.values.pei_gmdm_legal_name}
             placeholder='00000000'
             className='bg-white'
             disabled={disabled}
           />
           <p className='text-danger-2 text-sm self-end'>
-            {formik.errors.gmdm_legal_name &&
-              formik.touched.gmdm_legal_name &&
-              formik.errors.gmdm_legal_name}
+            {formik.errors.pei_gmdm_legal_name &&
+              formik.touched.pei_gmdm_legal_name &&
+              formik.errors.pei_gmdm_legal_name}
           </p>
         </div>
 
@@ -316,23 +318,23 @@ function AddForm({ formik, disabled = false, formRefSetter }: IAddFormProps) {
         </div>
 
         <div className='flex flex-col gap-3'>
-          <Label className='text-white' htmlFor='pb_name'>
+          <Label className='text-white' htmlFor='pei_pb_name'>
             Pitchbook Name
           </Label>
           <Input
             type='text'
-            name='pb_name'
+            name='pei_pb_name'
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.pb_name}
+            value={formik.values.pei_pb_name}
             placeholder='00000000'
             className='bg-white'
             disabled={disabled}
           />
           <p className='text-danger-2 text-sm self-end'>
-            {formik.errors.pb_name &&
-              formik.touched.pb_name &&
-              formik.errors.pb_name}
+            {formik.errors.pei_pb_name &&
+              formik.touched.pei_pb_name &&
+              formik.errors.pei_pb_name}
           </p>
         </div>
 
