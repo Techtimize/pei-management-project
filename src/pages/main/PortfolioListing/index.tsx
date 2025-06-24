@@ -1,9 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { columns, ICompany } from './columns'
 import { DataTable } from '../../../components/dataTable/data-table'
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable
+} from '@tanstack/react-table'
 
 function PortfolioListingPage() {
   const [data, setData] = useState<ICompany[]>([])
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel()
+  })
 
   useEffect(() => {
     getData()
@@ -167,7 +179,7 @@ function PortfolioListingPage() {
 
   return (
     <div className='w-full py-10 px-2'>
-      <DataTable columns={columns} data={data} />
+      <DataTable table={table} />
     </div>
   )
 }
