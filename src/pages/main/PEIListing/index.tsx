@@ -6,7 +6,7 @@ import { useFormik } from 'formik'
 import { object, string } from 'yup'
 import AddForm from './AddForm'
 import { ActionTypes, IPeiFields } from './types'
-import { setPeiDraft } from '@/store/reducers/draftSlice'
+import { clearPeiDraft, setPeiDraft } from '@/store/reducers/draftSlice'
 import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks'
 import { useLocation, useNavigate } from 'react-router'
 import { peiFormTexts } from '@/config/constants'
@@ -81,16 +81,9 @@ function PEIListingPage() {
     onSubmit: async (values) => {
       console.log('Submitting')
       console.log(values)
-      // await Axios.post("http://localhost:5000/newcategory", values);
     },
     validationSchema
   })
-
-  // useEffect(() => {
-  //   setDefaultFormOpen(state?.draft)
-  //   if (state?.draft && draftPEI)
-
-  // }, [state?.draft, draftPEI])
 
   useEffect(() => {
     setActionType(state?.actionType)
@@ -103,6 +96,7 @@ function PEIListingPage() {
     else if (state.actionType === ActionTypes.DRAFT && draftPEI) {
       setDefaultFormOpen(true)
       formik.setValues({
+        id: draftPEI.id,
         pei_pb_id: draftPEI.pei_pb_id,
         pei_swift_client_number: draftPEI?.pei_swift_client_number,
         pei_swift_client_name: draftPEI?.pei_swift_client_name,
@@ -127,6 +121,7 @@ function PEIListingPage() {
       if (foundIndex !== -1) {
         setDefaultFormOpen(true)
         formik.setValues({
+          id: data[foundIndex].id,
           pei_pb_id: data[foundIndex].pei_pb_id,
           pei_swift_client_number: data[foundIndex].pei_swift_client_number,
           pei_swift_client_name: data[foundIndex].pei_swift_client_name,
@@ -150,7 +145,7 @@ function PEIListingPage() {
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [state?.actionType])
 
   async function getData() {
     // Fetch data from your API here.
@@ -176,7 +171,20 @@ function PEIListingPage() {
     })
   }
   async function handleSubmit(values: IPeiFields) {
-    console.log('🚀 ~ handleSubmit ~ values:', values)
+    const { id, ...newData } = values
+
+    if (state.actionType === ActionTypes.DRAFT && !id) {
+      const res = await axiosInstance.post('/pei-company', newData)
+      if (res.status === 201) dispatch(clearPeiDraft())
+    } else if (
+      (state.actionType === ActionTypes.EDIT && id) ||
+      (state.actionType === ActionTypes.DRAFT && id)
+    ) {
+      await axiosInstance.put(`/pei-company/${id}`, newData)
+    } else {
+      await axiosInstance.post('/pei-company', newData)
+    }
+
     navigate('/pei-companies', { state: { actionType: ActionTypes.CLOSE } })
   }
   const handleReset = () => {
@@ -253,12 +261,7 @@ function PEIListingPage() {
         </FormModal>
       </div>
 
-      <DataTable
-        // columns={columns}
-        // data={data}
-        highlightedItem={highlightedItem}
-        table={table}
-      />
+      <DataTable highlightedItem={highlightedItem} table={table} />
     </div>
   )
 }

@@ -1,11 +1,12 @@
 import axios from 'axios'
-import { redirect } from 'react-router'
 import { conf } from '.'
+import { getNavigateRef } from '@/lib/utils'
 
 const axiosInstance = axios.create({
   baseURL: conf.API_URL
 })
 
+const navigate = getNavigateRef()
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -26,30 +27,11 @@ axiosInstance.interceptors.response.use(
     return response
   },
   function (error) {
-    const originalRequest = error.config
-
-    if (error.response.status === 401) {
+    if (error.response.status === 401 || error.response.status === 403) {
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
-      redirect('/auth/login')
+      if (navigate) navigate('/auth/login')
       return Promise.reject(error)
-    }
-
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true
-      const refreshToken = localStorage.getItem('refresh_token')
-      return axiosInstance
-        .post('/auth/token', {
-          refresh_token: refreshToken
-        })
-        .then((res) => {
-          if (res.status === 201) {
-            localStorage.setItem('access_token', res.data.access_token)
-            axiosInstance.defaults.headers.common['Authorization'] =
-              'Bearer ' + localStorage.getItem('access_token')
-            return axiosInstance(originalRequest)
-          }
-        })
     }
     return Promise.reject(error)
   }

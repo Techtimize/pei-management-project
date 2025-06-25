@@ -6,11 +6,16 @@ import AuthLayout from './layouts/auth/Layout'
 import { mainRoutes, publicRoutes } from './config/routes'
 import { useAppSelector } from './hooks/storeHooks'
 import { ModuleTypeEnum } from './store/reducers/moduleSlice'
+import { setNavigateRef } from './lib/utils'
 
 function App() {
   const moduleType = useAppSelector((state) => state.module.moduleType)
   const location = useLocation()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    setNavigateRef(navigate)
+  }, [navigate])
 
   useEffect(() => {
     if (
