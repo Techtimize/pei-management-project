@@ -18,9 +18,13 @@ export const draftSlice = createSlice({
       console.log(action.payload.pei)
       state.pei = action.payload.pei
       return state
+    },
+    clearPeiDraft: (state) => {
+      delete state.pei
+      return state
     }
   }
 })
 
-export const { setPeiDraft } = draftSlice.actions
+export const { setPeiDraft, clearPeiDraft } = draftSlice.actions
 export default draftSlice.reducer

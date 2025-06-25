@@ -20,6 +20,7 @@ type fieldType = keyof IDraftSlice[keyof IDraftSlice]
 
 function BottomSheet() {
   const drafts = useAppSelector((state) => state.draft)
+  console.log('🚀 ~ BottomSheet ~ drafts:', drafts)
   const navigate = useNavigate()
 
   function handleDraftClick(key: 'pei' | 'portfolio' | 'local' | 'subsidiary') {
