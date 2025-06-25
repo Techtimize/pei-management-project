@@ -1,4 +1,5 @@
 export interface IPeiFields {
+  id?: string
   pei_pb_id: string
   pei_swift_client_number: string
   pei_swift_client_name: string
