@@ -12,7 +12,8 @@ function Login() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (isLoggedIn) navigate('/')
+    const accessTokken = localStorage.getItem('access_token')
+    if (isLoggedIn && !accessTokken) navigate('/')
   }, [isLoggedIn])
 
   function handleModuleChange(moduleType: ModuleTypeEnum) {
